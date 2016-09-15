@@ -86,4 +86,8 @@ public class Personaje {
 
 		return tirada > this.getEvasion();
 	}
+	
+	public boolean Equals(Personaje pj) {
+		return pj.getNombre().equals(pj.getNombre());
+	}
 }
