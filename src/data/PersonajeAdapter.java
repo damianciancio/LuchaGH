@@ -1,5 +1,6 @@
 package data;
 import java.util.ArrayList;
+import util.PersonajeNoEncontradoException;
 import entities.*;
 
 public class PersonajeAdapter {
@@ -15,16 +16,21 @@ public class PersonajeAdapter {
 	{
 		return _list;
 	}
-	
-	//ToDo crear una excepción más decente para diferenciar distintos errores (como los de sql)
-	public Personaje GetByNombre(Personaje pj) throws Exception
+
+	public Personaje GetByNombre(Personaje pj) throws PersonajeNoEncontradoException
 	{
 		int indice = _list.indexOf(pj);
 		
-		if (indice == -1) throw new Exception("No se ha encontrado el personaje");
+		if (indice == -1) throw new PersonajeNoEncontradoException("No se ha encontrado el personaje");
 
 		Personaje result = _list.get(indice);
 		
 		return result;
+	}
+	
+	public void Guardar(Personaje pj)
+	{
+		_list.add(pj);
+		
 	}
 }
