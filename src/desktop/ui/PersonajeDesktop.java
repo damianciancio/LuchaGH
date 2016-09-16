@@ -1,4 +1,6 @@
 package desktop.ui;
+import logic.PersonajeLogic;
+import entities.Personaje;
 
 import java.awt.EventQueue;
 
@@ -38,6 +40,8 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 
+import util.PersonajeInvalidoException;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -52,6 +56,8 @@ public class PersonajeDesktop {
 	private JTextField txtEvasion;
 	private JTextField txtPtsrest;
 
+	private PersonajeLogic ctrlPers;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -73,6 +79,8 @@ public class PersonajeDesktop {
 	 */
 	public PersonajeDesktop() {
 		initialize();
+		
+		ctrlPers=new PersonajeLogic();
 	}
 
 	/**
@@ -203,11 +211,17 @@ public class PersonajeDesktop {
 		panel_1.add(lblMaxevasion, "cell 2 3");
 	}
 	
+	
 	public void guardar()
 	{
 		if(validar())
 		{
-			int i = 9;
+			try {
+				ctrlPers.guardar(this.mapearADatos());
+			} catch (PersonajeInvalidoException e) {
+				JOptionPane.showMessageDialog(this.frame, e.getMessage());
+			}
+
 		}
 	}
 	
@@ -243,7 +257,8 @@ public class PersonajeDesktop {
 		}
 		if(!valido)
 		JOptionPane.showMessageDialog(frame, error,"Error", JOptionPane.ERROR_MESSAGE);
-				return valido;
+		
+		return valido;
 	}
 	
 	private int parseAttributo(JTextField campo) {
@@ -252,5 +267,22 @@ public class PersonajeDesktop {
 		
 		return Integer.parseInt(strCampo);
 	}
+	
+	private Personaje mapearADatos(){
+		Personaje p= new Personaje();
+		
+		p.setNombre(txtNombreusuario.getText());
+		p.setDefensa(parseAttributo(txtDefensa));
+		p.setEvasion(parseAttributo(txtEvasion));
+		p.setVida(parseAttributo(txtVida));
+		p.setEnergia(parseAttributo(txtEnergia));
+		
+		return p;
+	}
+	
+	
+	
+	
+	
 }
 
