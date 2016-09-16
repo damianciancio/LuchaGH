@@ -40,6 +40,10 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class PersonajeDesktop {
 
@@ -106,9 +110,19 @@ public class PersonajeDesktop {
 		panelInf.add(btnGuardar);
 		
 		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				limpiarCampos();
+			}
+		});
 		panelInf.add(btnReset);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cerrar();
+			}
+		});
 		panelInf.add(btnCancelar);
 		
 		JPanel panel = new JPanel();
@@ -164,6 +178,13 @@ public class PersonajeDesktop {
 		panel_1.add(lblVida, "cell 0 0,alignx trailing");
 		
 		txtVida = new JTextField();
+		txtVida.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				calcularRestantes();
+			}
+		});
+		
 		panel_1.add(txtVida, "cell 1 0,growx");
 		txtVida.setColumns(10);
 		
@@ -179,6 +200,13 @@ public class PersonajeDesktop {
 		panel_1.add(lblEnerga, "cell 0 1,alignx trailing");
 		
 		txtEnergia = new JTextField();
+		txtEnergia.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				calcularRestantes();
+			}
+		});
+		
 		panel_1.add(txtEnergia, "cell 1 1,growx");
 		txtEnergia.setColumns(10);
 		
@@ -186,6 +214,13 @@ public class PersonajeDesktop {
 		panel_1.add(lblDefensa, "cell 0 2,alignx trailing");
 		
 		txtDefensa = new JTextField();
+		txtDefensa.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				calcularRestantes();
+			}
+		});
+		
 		panel_1.add(txtDefensa, "cell 1 2,growx");
 		txtDefensa.setColumns(10);
 		
@@ -196,6 +231,12 @@ public class PersonajeDesktop {
 		panel_1.add(lblEvasin, "cell 0 3,alignx trailing");
 		
 		txtEvasion = new JTextField();
+		txtEvasion.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				calcularRestantes();
+			}
+		});
 		panel_1.add(txtEvasion, "cell 1 3,growx");
 		txtEvasion.setColumns(10);
 		
@@ -236,6 +277,11 @@ public class PersonajeDesktop {
 			valido = false;
 			error = error + "Los atributos deben tener valor numerico entero.\n";
 		}
+		if((ptDefensa >  20 || ptEvasion > 80) )
+		{
+			valido = false;
+			error = error + "Los puntos de defensa no pueden superar los 20 puntos.\nLos puntos de evasion no pueden superar los 80 puntos.";
+		}
 		if(valido && ptDefensa + ptVida + ptEnergia + ptEvasion > 200)
 		{
 			error = error + "Los atributos no pueden superar los 200 puntos.\n"; 
@@ -252,5 +298,62 @@ public class PersonajeDesktop {
 		
 		return Integer.parseInt(strCampo);
 	}
+
+	private void calcularRestantes()
+	{
+		int restantes = 200;
+		if(!txtDefensa.getText().equals(null))
+		{
+			try {
+				restantes = restantes - Integer.parseInt(txtDefensa.getText());
+			} catch (NumberFormatException e) 
+			{
+				
+			}
+		}
+		if (!txtEnergia.getText().equals(null)) {
+			
+		
+			try {
+				restantes = restantes - Integer.parseInt(txtEnergia.getText());
+			} catch (NumberFormatException e) 
+			{
+				
+			}
+		}
+		if(!txtEvasion.equals(null))
+		{
+			try {
+				restantes = restantes - Integer.parseInt(txtEvasion.getText());
+			} catch (NumberFormatException e) 
+			{
+				
+			}
+		}
+		if(!txtVida.getText().equals(null))
+			try {
+				restantes = restantes - Integer.parseInt(txtVida.getText());
+			} catch (NumberFormatException e) 
+			{
+				
+			}
+		txtPtsrest.setText(String.valueOf(restantes));
+	}
+	
+	private void limpiarCampos()
+	{
+		txtDefensa.setText("");
+		txtEnergia.setText("");
+		txtEvasion.setText("");
+		txtId.setText("");
+		txtNombreusuario.setText("");
+		txtPtsrest.setText("");
+		txtVida.setText("");
+	}
+	public void cerrar()
+	{
+		this.frame.dispose();
+	}
+
 }
 
