@@ -41,8 +41,8 @@ public class PersonajeLogic {
 			
 			_db.Guardar(p);
 			
-		} catch (PersonajeInvalidoException e) {
-			throw e;
+		} catch (PersonajeInvalidoException piEx) {
+			throw piEx;
 		}
 	}
 
