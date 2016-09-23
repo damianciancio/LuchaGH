@@ -3,28 +3,46 @@ package desktop.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
+
+import entities.Personaje;
+
 import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
+
 import java.awt.Dimension;
+
 import javax.swing.AbstractListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+
+import logic.PersonajeLogic;
 
 public class Personajes {
 
+	private PersonajeLogic ctrlPers;
+	private JList listPersonajes;
 	private JFrame frame;
 
 	/**
@@ -48,6 +66,8 @@ public class Personajes {
 	 */
 	public Personajes() {
 		initialize();
+		
+		ctrlPers=new PersonajeLogic();
 	}
 
 	/**
@@ -55,33 +75,16 @@ public class Personajes {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				Refrescar();
+			}
+		});
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-
-		JPanel panelCentral = new JPanel();
-		panelCentral.setBorder(new EmptyBorder(5, 5, 5, 0));
-		frame.getContentPane().add(panelCentral, BorderLayout.CENTER);
-		panelCentral.setLayout(null);
 		
-		JList listPersonas = new JList();
-		listPersonas.setBounds(6, 6, 319, 254);
-		listPersonas.setMaximumSize(new Dimension(5000, 5000));
-		listPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listPersonas.setModel(new AbstractListModel() {
-			String[] values = new String[] {"ele1", "ele2", "ele3", "ele1", "ele2", "ele3", "ele1", "ele2", "ele3", "ele1", "ele2", "ele3", "ele1", "ele2", "ele3", "ele1", "ele2", "ele3"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		panelCentral.add(listPersonas);
-		
-		JScrollBar scrPersonas = new JScrollBar();
-		scrPersonas.setBounds(337, 6, 15, 204);
-		panelCentral.add(scrPersonas);
 
 		JPanel panelDerecho = new JPanel();
 		panelDerecho.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -124,6 +127,26 @@ public class Personajes {
 		gbc_btnEliminar.gridx = 0;
 		gbc_btnEliminar.gridy = 3;
 		panelDerecho.add(btnEliminar, gbc_btnEliminar);
+		
+		JScrollPane panelCentral = new JScrollPane();
+		frame.getContentPane().add(panelCentral, BorderLayout.CENTER);
+		
+		listPersonajes = new JList();
+		
+		panelCentral.setViewportView(listPersonajes);
 	}
-
+	
+	private void Refrescar() {
+		
+		ArrayList<Personaje> _list = ctrlPers.GetAll();
+		
+		for (int i = 0 ; i < _list.size() ; i++) {
+			Personaje per = _list.get(i);
+			
+		}
+		
+		listPersonajes = new JList(_list.toArray());
+		
+		
+	}
 }
