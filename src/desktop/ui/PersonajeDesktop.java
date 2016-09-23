@@ -9,12 +9,6 @@ import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-
-import net.miginfocom.swing.MigLayout;
-
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 
@@ -105,9 +99,14 @@ public class PersonajeDesktop {
 		frame.getContentPane().add(panelDer, BorderLayout.EAST);
 		
 		JPanel panelInf = new JPanel();
-		panelInf.setBorder(new EmptyBorder(5, 75, 5, 5));
+		panelInf.setBorder(new EmptyBorder(5, 0, 5, 0));
 		frame.getContentPane().add(panelInf, BorderLayout.SOUTH);
-		panelInf.setLayout(new GridLayout(0, 3, 0, 0));
+		GridBagLayout gbl_panelInf = new GridBagLayout();
+		gbl_panelInf.columnWidths = new int[] {40, 83, 83, 83};
+		gbl_panelInf.rowHeights = new int[]{23, 0};
+		gbl_panelInf.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		gbl_panelInf.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panelInf.setLayout(gbl_panelInf);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
@@ -115,15 +114,12 @@ public class PersonajeDesktop {
 				guardar();
 			}
 		});
-		panelInf.add(btnGuardar);
-		
-		JButton btnReset = new JButton("Reset");
-		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				limpiarCampos();
-			}
-		});
-		panelInf.add(btnReset);
+		GridBagConstraints gbc_btnGuardar = new GridBagConstraints();
+		gbc_btnGuardar.fill = GridBagConstraints.BOTH;
+		gbc_btnGuardar.insets = new Insets(0, 0, 0, 5);
+		gbc_btnGuardar.gridx = 1;
+		gbc_btnGuardar.gridy = 0;
+		panelInf.add(btnGuardar, gbc_btnGuardar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -131,17 +127,34 @@ public class PersonajeDesktop {
 				cerrar();
 			}
 		});
-		panelInf.add(btnCancelar);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new EmptyBorder(10, 0, 10, 0));
-		frame.getContentPane().add(panel, BorderLayout.NORTH);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{17, 92, 81, 0};
-		gbl_panel.rowHeights = new int[]{20, 14, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				limpiarCampos();
+			}
+		});
+		GridBagConstraints gbc_btnReset = new GridBagConstraints();
+		gbc_btnReset.fill = GridBagConstraints.BOTH;
+		gbc_btnReset.insets = new Insets(0, 0, 0, 5);
+		gbc_btnReset.gridx = 2;
+		gbc_btnReset.gridy = 0;
+		panelInf.add(btnReset, gbc_btnReset);
+		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+		gbc_btnCancelar.fill = GridBagConstraints.BOTH;
+		gbc_btnCancelar.gridx = 3;
+		gbc_btnCancelar.gridy = 0;
+		panelInf.add(btnCancelar, gbc_btnCancelar);
+		
+		JPanel panelSup = new JPanel();
+		panelSup.setBorder(new EmptyBorder(10, 0, 10, 0));
+		frame.getContentPane().add(panelSup, BorderLayout.NORTH);
+		GridBagLayout gbl_panelSup = new GridBagLayout();
+		gbl_panelSup.columnWidths = new int[]{17, 92, 81, 0};
+		gbl_panelSup.rowHeights = new int[]{20, 14, 0};
+		gbl_panelSup.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panelSup.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panelSup.setLayout(gbl_panelSup);
 		
 		JLabel lblID = new JLabel("ID");
 		GridBagConstraints gbc_lblID = new GridBagConstraints();
@@ -149,7 +162,7 @@ public class PersonajeDesktop {
 		gbc_lblID.insets = new Insets(0, 0, 5, 5);
 		gbc_lblID.gridx = 1;
 		gbc_lblID.gridy = 0;
-		panel.add(lblID, gbc_lblID);
+		panelSup.add(lblID, gbc_lblID);
 		
 		txtId = new JTextField();
 		txtId.setEnabled(false);
@@ -159,7 +172,7 @@ public class PersonajeDesktop {
 		gbc_txtId.insets = new Insets(0, 0, 5, 0);
 		gbc_txtId.gridx = 2;
 		gbc_txtId.gridy = 0;
-		panel.add(txtId, gbc_txtId);
+		panelSup.add(txtId, gbc_txtId);
 		
 		JLabel lblNombreusuario = new JLabel("Nombre de Usuario");
 		GridBagConstraints gbc_lblNombreusuario = new GridBagConstraints();
@@ -167,23 +180,33 @@ public class PersonajeDesktop {
 		gbc_lblNombreusuario.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNombreusuario.gridx = 1;
 		gbc_lblNombreusuario.gridy = 1;
-		panel.add(lblNombreusuario, gbc_lblNombreusuario);
+		panelSup.add(lblNombreusuario, gbc_lblNombreusuario);
 		
 		txtNombreusuario = new JTextField();
 		GridBagConstraints gbc_txtNombreusuario = new GridBagConstraints();
 		gbc_txtNombreusuario.anchor = GridBagConstraints.WEST;
 		gbc_txtNombreusuario.gridx = 2;
 		gbc_txtNombreusuario.gridy = 1;
-		panel.add(txtNombreusuario, gbc_txtNombreusuario);
+		panelSup.add(txtNombreusuario, gbc_txtNombreusuario);
 		txtNombreusuario.setColumns(10);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new MigLayout("", "[][][91.00][62.00,grow]", "[][][][]"));
+		JPanel panelCentro = new JPanel();
+		panelCentro.setBorder(new LineBorder(new Color(0, 0, 0)));
+		frame.getContentPane().add(panelCentro, BorderLayout.CENTER);
+		GridBagLayout gbl_panelCentro = new GridBagLayout();
+		gbl_panelCentro.columnWidths = new int[] {10, 40, 86, 60, 66, 5, 0};
+		gbl_panelCentro.rowHeights = new int[] {5, 20, 20, 20, 20, 5, 0};
+		gbl_panelCentro.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelCentro.setLayout(gbl_panelCentro);
 		
 		JLabel lblVida = new JLabel("Vida");
-		panel_1.add(lblVida, "cell 0 0,alignx trailing");
+		GridBagConstraints gbc_lblVida = new GridBagConstraints();
+		gbc_lblVida.anchor = GridBagConstraints.EAST;
+		gbc_lblVida.insets = new Insets(0, 0, 5, 5);
+		gbc_lblVida.gridx = 1;
+		gbc_lblVida.gridy = 1;
+		panelCentro.add(lblVida, gbc_lblVida);
 		
 		txtVida = new JTextField();
 		txtVida.addFocusListener(new FocusAdapter() {
@@ -193,19 +216,33 @@ public class PersonajeDesktop {
 			}
 		});
 		
-		panel_1.add(txtVida, "cell 1 0,growx");
+		GridBagConstraints gbc_txtVida = new GridBagConstraints();
+		gbc_txtVida.anchor = GridBagConstraints.NORTH;
+		gbc_txtVida.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtVida.insets = new Insets(0, 0, 5, 5);
+		gbc_txtVida.gridx = 2;
+		gbc_txtVida.gridy = 1;
+		panelCentro.add(txtVida, gbc_txtVida);
 		txtVida.setColumns(10);
 		
 		JLabel lblPtsRestantes = new JLabel("Pts. Restantes");
-		panel_1.add(lblPtsRestantes, "cell 2 0,alignx trailing");
+		GridBagConstraints gbc_lblPtsRestantes = new GridBagConstraints();
+		gbc_lblPtsRestantes.anchor = GridBagConstraints.EAST;
+		gbc_lblPtsRestantes.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPtsRestantes.gridx = 3;
+		gbc_lblPtsRestantes.gridy = 1;
+		panelCentro.add(lblPtsRestantes, gbc_lblPtsRestantes);
 		
 		txtPtsrest = new JTextField();
 		txtPtsrest.setEnabled(false);
-		panel_1.add(txtPtsrest, "cell 3 0,growx");
+		GridBagConstraints gbc_txtPtsrest = new GridBagConstraints();
+		gbc_txtPtsrest.anchor = GridBagConstraints.NORTH;
+		gbc_txtPtsrest.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPtsrest.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPtsrest.gridx = 4;
+		gbc_txtPtsrest.gridy = 1;
+		panelCentro.add(txtPtsrest, gbc_txtPtsrest);
 		txtPtsrest.setColumns(10);
-		
-		JLabel lblEnerga = new JLabel("Energ\u00EDa");
-		panel_1.add(lblEnerga, "cell 0 1,alignx trailing");
 		
 		txtEnergia = new JTextField();
 		txtEnergia.addFocusListener(new FocusAdapter() {
@@ -215,11 +252,22 @@ public class PersonajeDesktop {
 			}
 		});
 		
-		panel_1.add(txtEnergia, "cell 1 1,growx");
-		txtEnergia.setColumns(10);
+		JLabel lblEnerga = new JLabel("Energ\u00EDa");
+		GridBagConstraints gbc_lblEnerga = new GridBagConstraints();
+		gbc_lblEnerga.anchor = GridBagConstraints.EAST;
+		gbc_lblEnerga.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEnerga.gridx = 1;
+		gbc_lblEnerga.gridy = 2;
+		panelCentro.add(lblEnerga, gbc_lblEnerga);
 		
-		JLabel lblDefensa = new JLabel("Defensa");
-		panel_1.add(lblDefensa, "cell 0 2,alignx trailing");
+		GridBagConstraints gbc_txtEnergia = new GridBagConstraints();
+		gbc_txtEnergia.anchor = GridBagConstraints.NORTH;
+		gbc_txtEnergia.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtEnergia.insets = new Insets(0, 0, 5, 5);
+		gbc_txtEnergia.gridx = 2;
+		gbc_txtEnergia.gridy = 2;
+		panelCentro.add(txtEnergia, gbc_txtEnergia);
+		txtEnergia.setColumns(10);
 		
 		txtDefensa = new JTextField();
 		txtDefensa.addFocusListener(new FocusAdapter() {
@@ -229,14 +277,30 @@ public class PersonajeDesktop {
 			}
 		});
 		
-		panel_1.add(txtDefensa, "cell 1 2,growx");
+		JLabel lblDefensa = new JLabel("Defensa");
+		GridBagConstraints gbc_lblDefensa = new GridBagConstraints();
+		gbc_lblDefensa.anchor = GridBagConstraints.WEST;
+		gbc_lblDefensa.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDefensa.gridx = 1;
+		gbc_lblDefensa.gridy = 3;
+		panelCentro.add(lblDefensa, gbc_lblDefensa);
+		
+		GridBagConstraints gbc_txtDefensa = new GridBagConstraints();
+		gbc_txtDefensa.anchor = GridBagConstraints.NORTH;
+		gbc_txtDefensa.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtDefensa.insets = new Insets(0, 0, 5, 5);
+		gbc_txtDefensa.gridx = 2;
+		gbc_txtDefensa.gridy = 3;
+		panelCentro.add(txtDefensa, gbc_txtDefensa);
 		txtDefensa.setColumns(10);
 		
 		JLabel lblMaxdef = new JLabel("(M\u00E1x. 20)");
-		panel_1.add(lblMaxdef, "cell 2 2");
-		
-		JLabel lblEvasin = new JLabel("Evasi\u00F3n");
-		panel_1.add(lblEvasin, "cell 0 3,alignx trailing");
+		GridBagConstraints gbc_lblMaxdef = new GridBagConstraints();
+		gbc_lblMaxdef.anchor = GridBagConstraints.WEST;
+		gbc_lblMaxdef.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMaxdef.gridx = 3;
+		gbc_lblMaxdef.gridy = 3;
+		panelCentro.add(lblMaxdef, gbc_lblMaxdef);
 		
 		txtEvasion = new JTextField();
 		txtEvasion.addFocusListener(new FocusAdapter() {
@@ -245,11 +309,30 @@ public class PersonajeDesktop {
 				calcularRestantes();
 			}
 		});
-		panel_1.add(txtEvasion, "cell 1 3,growx");
+		
+		JLabel lblEvasin = new JLabel("Evasi\u00F3n");
+		GridBagConstraints gbc_lblEvasin = new GridBagConstraints();
+		gbc_lblEvasin.anchor = GridBagConstraints.EAST;
+		gbc_lblEvasin.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEvasin.gridx = 1;
+		gbc_lblEvasin.gridy = 5;
+		panelCentro.add(lblEvasin, gbc_lblEvasin);
+		GridBagConstraints gbc_txtEvasion = new GridBagConstraints();
+		gbc_txtEvasion.anchor = GridBagConstraints.NORTH;
+		gbc_txtEvasion.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtEvasion.insets = new Insets(0, 0, 5, 5);
+		gbc_txtEvasion.gridx = 2;
+		gbc_txtEvasion.gridy = 5;
+		panelCentro.add(txtEvasion, gbc_txtEvasion);
 		txtEvasion.setColumns(10);
 		
 		JLabel lblMaxevasion = new JLabel("(Max. 80)");
-		panel_1.add(lblMaxevasion, "cell 2 3");
+		GridBagConstraints gbc_lblMaxevasion = new GridBagConstraints();
+		gbc_lblMaxevasion.anchor = GridBagConstraints.WEST;
+		gbc_lblMaxevasion.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMaxevasion.gridx = 3;
+		gbc_lblMaxevasion.gridy = 5;
+		panelCentro.add(lblMaxevasion, gbc_lblMaxevasion);
 	}
 	
 	
