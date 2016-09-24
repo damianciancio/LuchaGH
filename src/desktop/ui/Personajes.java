@@ -40,6 +40,8 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import logic.PersonajeLogic;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Personajes {
 
@@ -107,6 +109,10 @@ public class Personajes {
 		panelDerecho.add(btnElegir, gbc_btnElegir);
 		
 		JButton btnAadir = new JButton("A\u00F1adir");
+		btnAadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnAadir.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		GridBagConstraints gbc_btnAadir = new GridBagConstraints();
 		gbc_btnAadir.fill = GridBagConstraints.BOTH;
@@ -153,11 +159,10 @@ public class Personajes {
 		try
 		{
 			DefaultListModel modelo = new DefaultListModel();
-			ArrayList<Personaje> personajes = new PersonajeLogic().GetAll();	
-			for (Personaje personaje : personajes) {
-				
+			ArrayList<Personaje> personajes = new PersonajeLogic().GetAll();
 			
-			        modelo.addElement(personaje);
+			for (Personaje personaje : personajes) {
+				modelo.addElement(personaje);
 			}
 			listPersonajes.setModel(modelo);
 		}

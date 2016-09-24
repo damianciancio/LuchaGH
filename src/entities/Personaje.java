@@ -20,7 +20,7 @@ public class Personaje extends Entidad {
 	
 	public String toString()
 	{
-		return this.nombre;
+		return this.nombre +" "+ "\tPuntos restantes: "+this.ptsDisp;
 	}
 	public String getNombre() {
 		return nombre;
