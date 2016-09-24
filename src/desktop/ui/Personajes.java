@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import java.awt.Dimension;
 
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -138,7 +139,7 @@ public class Personajes {
 	}
 	
 	private void Refrescar() {
-		ArrayList<Personaje> _list = null;
+		/*ArrayList<Personaje> _list = null;
 		try
 		{
 			_list = ctrlPers.GetAll();
@@ -148,6 +149,17 @@ public class Personajes {
 			}
 			
 			listPersonajes = new JList(_list.toArray());
+		}*/
+		try
+		{
+			DefaultListModel modelo = new DefaultListModel();
+			ArrayList<Personaje> personajes = new PersonajeLogic().GetAll();	
+			for (Personaje personaje : personajes) {
+				
+			
+			        modelo.addElement(personaje);
+			}
+			listPersonajes.setModel(modelo);
 		}
 		catch(Exception e)
 		{

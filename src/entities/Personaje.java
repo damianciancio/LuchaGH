@@ -17,7 +17,11 @@ public class Personaje extends Entidad {
 	{
 		ptsDisp = 200;
 	}	
-		
+	
+	public String toString()
+	{
+		return this.nombre;
+	}
 	public String getNombre() {
 		return nombre;
 	}
