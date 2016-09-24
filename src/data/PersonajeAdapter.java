@@ -21,7 +21,7 @@ public class PersonajeAdapter {
 		PreparedStatement stmt=null;
 		ArrayList<Personaje> personajes = new ArrayList<Personaje>();
 		try{
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("SELECT * FROM PERSONAJES");
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("SELECT * FROM personajes");
 			rs = stmt.executeQuery();
 			
 			while (rs.next()) 
