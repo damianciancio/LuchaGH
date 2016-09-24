@@ -1,8 +1,8 @@
 package logic;
 
 import java.util.ArrayList;
-import util.PersonajeInvalidoException;
-import util.PersonajeNoEncontradoException;
+
+import util.*;
 import entities.*;
 import data.*;
 
@@ -13,7 +13,7 @@ public class PersonajeLogic {
 		_db = new PersonajeAdapter();
 	}
 	
-	public void guardar(Personaje p) throws PersonajeInvalidoException
+	public void guardar(Personaje p) throws PersonajeInvalidoException, ErrorConexionException, Exception
 	{
 		try {
 			String error = "";
@@ -38,8 +38,18 @@ public class PersonajeLogic {
 			if (error.length() != 0) {
 				throw new PersonajeInvalidoException(error);
 			}
-			
-			_db.Guardar(p);
+			try
+			{
+				_db.Guardar(p);
+			}
+			catch (ErrorConexionException e)
+			{
+				throw e;
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
 			
 		} catch (PersonajeInvalidoException piEx) {
 			throw piEx;
