@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class Personaje {
+public class Personaje extends Entidad {
 	private String nombre;
 	private int ptsDisp;
 	private int vida;

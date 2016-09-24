@@ -343,7 +343,7 @@ public class PersonajeDesktop {
 		{
 			try {
 				ctrlPers.guardar(this.mapearADatos());
-			} catch (PersonajeInvalidoException e) {
+			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this.frame, e.getMessage());
 			}
 
