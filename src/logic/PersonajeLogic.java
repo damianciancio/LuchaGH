@@ -56,8 +56,16 @@ public class PersonajeLogic {
 		}
 	}
 
-	public ArrayList<Personaje> GetAll() {
-		return _db.GetAll();
+	public ArrayList<Personaje> GetAll() throws Exception
+	{
+		try
+		{
+			return _db.GetAll();
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
 	}
 	
 	public Personaje GetByNombre(Personaje pj) throws PersonajeNoEncontradoException {

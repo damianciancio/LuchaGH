@@ -25,6 +25,7 @@ import entities.Personaje;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import java.awt.Dimension;
 
@@ -137,15 +138,23 @@ public class Personajes {
 	}
 	
 	private void Refrescar() {
-		
-		ArrayList<Personaje> _list = ctrlPers.GetAll();
-		
-		for (int i = 0 ; i < _list.size() ; i++) {
-			Personaje per = _list.get(i);
+		ArrayList<Personaje> _list = null;
+		try
+		{
+			_list = ctrlPers.GetAll();
+			for (int i = 0 ; i < _list.size() ; i++) {
+				Personaje per = _list.get(i);
+				
+			}
 			
+			listPersonajes = new JList(_list.toArray());
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(frame, e.getMessage());
 		}
 		
-		listPersonajes = new JList(_list.toArray());
+		
 		
 		
 	}

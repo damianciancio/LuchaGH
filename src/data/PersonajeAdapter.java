@@ -14,9 +14,36 @@ public class PersonajeAdapter {
 		_list = new ArrayList<Personaje>();
 	}
 	
-	public ArrayList<Personaje> GetAll() 
+	public ArrayList<Personaje> GetAll() throws Exception
 	{
-		return _list;
+	
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		ArrayList<Personaje> personajes = new ArrayList<Personaje>();
+		try{
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("SELECT * FROM PERSONAJES");
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) 
+			{
+				Personaje p = new Personaje();
+				p.setId(rs.getInt(1));
+				p.setNombre(rs.getString(2));
+				p.setPtsDisp(rs.getInt(3));
+				p.setVida(rs.getInt(4));
+				p.setEnergia(rs.getInt(5));
+				p.setDefensa(rs.getInt(6));
+				p.setEvasion(rs.getInt(7));
+				personajes.add(p);
+			}
+		}
+		catch(Exception e)
+		{
+			throw e;
+		}
+		
+		return personajes;
+		//return _list;
 	}
 
 	public Personaje GetByNombre(Personaje pj) throws PersonajeNoEncontradoException
