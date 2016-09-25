@@ -10,6 +10,8 @@ public class PersonajeLuchando {
 	public PersonajeLuchando(Personaje p)
 	{
 		this.setP(p);
+		this.setEnergiaActual(this.getP().getEnergia());
+		this.setVidaActual(this.getP().getVida());
 	}
 	
 	public PersonajeState getEstado()
