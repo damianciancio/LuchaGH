@@ -6,12 +6,24 @@ public class PersonajeLuchando {
 	private Personaje p;
 	private int vidaActual;
 	private int energiaActual;
-	public PersonajeState estado;
 	
 	public PersonajeLuchando(Personaje p)
 	{
 		this.setP(p);
-		this.estado = PersonajeState.NORMAL;
+	}
+	
+	public PersonajeState getEstado()
+	{
+		if(this.getVidaActual()<=0)
+		{
+			return PersonajeState.SIN_VIDA;
+		}
+		else
+			if(this.getEnergiaActual()<=0)
+			{
+				return PersonajeState.SIN_ENERGIA;
+			}
+			else return PersonajeState.NORMAL;
 	}
 	
 	public Personaje getP() {
@@ -50,17 +62,11 @@ public class PersonajeLuchando {
 	public void restarVida(int cantPtos)
 	{
 		this.setVidaActual(this.getVidaActual()-cantPtos);
-		if(this.getVidaActual()<=0)
-		{
-			this.estado = PersonajeState.SIN_VIDA;
-		}
+		
 	}
 	public void restarEnergia(int cantPtos)
 	{
 		this.setEnergiaActual(this.getEnergiaActual()-cantPtos);
-		if(this.getEnergiaActual()<=0)
-		{
-			this.estado = PersonajeState.SIN_ENERGIA;
-		}
+		
 	}
 }
