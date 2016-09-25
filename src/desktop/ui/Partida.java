@@ -1,5 +1,8 @@
 package desktop.ui;
 
+import logic.*;
+import util.ErrorConexionException;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,11 +15,18 @@ import java.awt.Insets;
 import javax.swing.SwingConstants;
 import java.awt.Component;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import entities.Personaje;
+
 import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Partida {
 
@@ -26,10 +36,18 @@ public class Partida {
 	private JTextField txtEneIzq;
 	private JTextField txtEneDer;
 	private JTextField txtPtsAtaque;
+	private JRadioButton rdbtnDefender;
+	private JRadioButton rdbtnAtacar;
+	private ControladorPelea controller;
+	private Personaje p1;
+	private Personaje p2;
+	JLabel lblTurnoDe;
+	JButton btnComenzar;
+	
 
 	/**
 	 * Launch the application.
-	 */
+	*/
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,7 +61,7 @@ public class Partida {
 		});
 	}
 
-	/**
+	/*
 	 * Create the application.
 	 */
 	public Partida() {
@@ -69,6 +87,11 @@ public class Partida {
 		pnlPersonajes.setLayout(gbl_pnlPersonajes);
 		
 		JButton btnPersonajeIzq = new JButton("+");
+		btnPersonajeIzq.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				elegirPersonaje1();
+			}
+		});
 		btnPersonajeIzq.setMargin(new Insets(0, 5, 0, 5));
 		btnPersonajeIzq.setPreferredSize(new Dimension(41, 20));
 		btnPersonajeIzq.setSize(new Dimension(30, 20));
@@ -88,6 +111,11 @@ public class Partida {
 		pnlPersonajes.add(lblPerIzq, gbc_lblPerIzq);
 		
 		JButton btnPersonajeDer = new JButton("+");
+		btnPersonajeDer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				elegirPersonaje2();
+			}
+		});
 		btnPersonajeDer.setMargin(new Insets(0, 5, 0, 5));
 		btnPersonajeDer.setPreferredSize(new Dimension(41, 20));
 		btnPersonajeDer.setSize(new Dimension(30, 20));
@@ -187,7 +215,12 @@ public class Partida {
 		pnlPersonajes.add(txtEneDer, gbc_txtEneDer);
 		txtEneDer.setColumns(10);
 		
-		JButton btnComenzar = new JButton("Comenzar");
+		btnComenzar = new JButton("Comenzar");
+		btnComenzar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comenzar();
+			}
+		});
 		GridBagConstraints gbc_btnComenzar = new GridBagConstraints();
 		gbc_btnComenzar.anchor = GridBagConstraints.SOUTHEAST;
 		gbc_btnComenzar.insets = new Insets(0, 0, 5, 0);
@@ -218,7 +251,15 @@ public class Partida {
 		gbc_lblTurno.gridy = 0;
 		pnlComenzar.add(lblTurno, gbc_lblTurno);
 		
-		JRadioButton rdbtnDefender = new JRadioButton("Defender");
+		JLabel lblTurnoDe = new JLabel("");
+		lblTurnoDe.setVerticalAlignment(SwingConstants.TOP);
+		GridBagConstraints gbc_lblTurnoDe = new GridBagConstraints();
+		gbc_lblTurnoDe.insets = new Insets(0, 0, 5, 0);
+		gbc_lblTurnoDe.gridx = 3;
+		gbc_lblTurnoDe.gridy = 0;
+		pnlComenzar.add(lblTurnoDe, gbc_lblTurnoDe);
+		
+		rdbtnDefender = new JRadioButton("Defender");
 		GridBagConstraints gbc_rdbtnDefender = new GridBagConstraints();
 		gbc_rdbtnDefender.anchor = GridBagConstraints.WEST;
 		gbc_rdbtnDefender.insets = new Insets(0, 0, 5, 5);
@@ -227,18 +268,24 @@ public class Partida {
 		pnlComenzar.add(rdbtnDefender, gbc_rdbtnDefender);
 		
 		JButton btnListo = new JButton("Listo!");
+		btnListo.setEnabled(false);
+		btnListo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				actuar();
+			}
+		});
 		GridBagConstraints gbc_btnListo = new GridBagConstraints();
 		gbc_btnListo.gridheight = 2;
 		gbc_btnListo.fill = GridBagConstraints.VERTICAL;
-		gbc_btnListo.insets = new Insets(0, 0, 5, 0);
+		gbc_btnListo.insets = new Insets(0, 0, 0, 5);
 		gbc_btnListo.gridx = 2;
 		gbc_btnListo.gridy = 1;
 		pnlComenzar.add(btnListo, gbc_btnListo);
 		
-		JRadioButton rdbtnAtacar = new JRadioButton("Atacar");
+		rdbtnAtacar = new JRadioButton("Atacar");
 		GridBagConstraints gbc_rdbtnAtacar = new GridBagConstraints();
 		gbc_rdbtnAtacar.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnAtacar.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnAtacar.insets = new Insets(0, 0, 0, 5);
 		gbc_rdbtnAtacar.gridx = 0;
 		gbc_rdbtnAtacar.gridy = 2;
 		pnlComenzar.add(rdbtnAtacar, gbc_rdbtnAtacar);
@@ -248,10 +295,69 @@ public class Partida {
 		txtPtsAtaque.setMinimumSize(new Dimension(45, 20));
 		GridBagConstraints gbc_txtPtsAtaque = new GridBagConstraints();
 		gbc_txtPtsAtaque.anchor = GridBagConstraints.WEST;
-		gbc_txtPtsAtaque.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPtsAtaque.insets = new Insets(0, 0, 0, 5);
 		gbc_txtPtsAtaque.gridx = 1;
 		gbc_txtPtsAtaque.gridy = 2;
 		pnlComenzar.add(txtPtsAtaque, gbc_txtPtsAtaque);
 		txtPtsAtaque.setColumns(10); 
+	}
+	
+	public void elegirPersonaje1()
+	{
+		Personajes pj = new Personajes();
+		pj.getFrame().setVisible(true);
+		p1 = pj.getPersonaje();
+	}
+	public void elegirPersonaje2()
+	{
+		Personajes pj = new Personajes();
+		pj.getFrame().setVisible(true);
+		p1 = pj.getPersonaje();
+	}
+	public void comenzar()
+	{
+		if(!p1.equals(null)&&!p2.equals(null))
+		{
+			controller = new ControladorPelea(p1,p2);
+			lblTurnoDe.setText(controller.getTurnoDe().getP().getNombre());
+			btnComenzar.setEnabled(true);
+		}
+		else
+			JOptionPane.showMessageDialog(this.frame, "Seleccione los personajes","Error", JOptionPane.ERROR_MESSAGE);
+		
+	}
+	public void actuar()
+	{
+		if(rdbtnAtacar.isSelected())
+		{
+			try
+			{
+				controller.atacar(Integer.parseInt(txtPtsAtaque.getText()));
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(this.frame,"Ingrese un numero entero en los puntos de ataque.","Error",JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		else
+		{
+			controller.defender();
+		}
+		try 
+		{
+			Personaje ganador = controller.cambiarDeTurno();
+			if(ganador!=null)
+			{
+				JOptionPane.showMessageDialog(this.frame, "El personaje "+ganador.getNombre()+" ha ganado la partida! Se le sumaron 10 puntos","Felicitaciones!",JOptionPane.INFORMATION_MESSAGE);
+			}
+		} 
+		catch (ErrorConexionException e) 
+		{
+			JOptionPane.showMessageDialog(this.frame, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		} 
+		catch (Exception e) 
+		{
+			JOptionPane.showMessageDialog(this.frame, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

@@ -39,10 +39,19 @@ public class Personajes {
 	private PersonajeLogic ctrlPers;
 	private JList<Personaje> listPersonajes;
 	private JFrame frame;
+	
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -63,6 +72,7 @@ public class Personajes {
 		initialize();
 		
 		ctrlPers=new PersonajeLogic();
+		refrescar();
 	}
 
 	/**
@@ -73,7 +83,7 @@ public class Personajes {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
-				Refrescar();
+				refrescar();
 			}
 		});
 		frame.setBounds(100, 100, 450, 300);
@@ -151,7 +161,7 @@ public class Personajes {
 		panelCentral.setViewportView(listPersonajes);
 	}
 	
-	private void Refrescar() {
+	private void refrescar() {
 		try
 		{
 			DefaultListModel<Personaje> modelo = new DefaultListModel<Personaje>();
@@ -194,7 +204,7 @@ public class Personajes {
 		
 		pjFrame.setVisible(true);
 		
-		Refrescar();
+		refrescar();
 	}
 	private void EditPersonaje() {
 		//Valido que se haya elegido a alguien
@@ -216,7 +226,7 @@ public class Personajes {
 		pjFrame.setVisible(true);
 		
 		//Se refresca la lista
-		Refrescar();
+		refrescar();
 	}
 	private void DeletePersonaje() {
 		//Valido que se haya elegido a alguien
@@ -243,7 +253,7 @@ public class Personajes {
 			}
 		}
 		
-		Refrescar();
+		refrescar();
 	}
 	
 	public Personaje getPersonaje() {

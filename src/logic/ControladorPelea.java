@@ -10,6 +10,31 @@ public class ControladorPelea {
 	public PersonajeLuchando p1;
 	public PersonajeLuchando p2;
 	
+	public PersonajeLuchando getP1() {
+		return p1;
+	}
+	public void setP1(PersonajeLuchando p1) {
+		this.p1 = p1;
+	}
+	public PersonajeLuchando getP2() {
+		return p2;
+	}
+	public void setP2(PersonajeLuchando p2) {
+		this.p2 = p2;
+	}
+	public PersonajeLuchando getTurnoDe() {
+		return turnoDe;
+	}
+	public void setTurnoDe(PersonajeLuchando turnoDe) {
+		this.turnoDe = turnoDe;
+	}
+	public PersonajeLuchando getEsperando() {
+		return esperando;
+	}
+	public void setEsperando(PersonajeLuchando esperando) {
+		this.esperando = esperando;
+	}
+
 	public PersonajeLuchando turnoDe;
 	public PersonajeLuchando esperando;
 	
@@ -55,7 +80,7 @@ public class ControladorPelea {
 		turnoDe.defender();
 	}
 	
-	public PersonajeLuchando cambiarDeTurno() throws ErrorConexionException, Exception
+	public Personaje cambiarDeTurno() throws ErrorConexionException, Exception
 	{
 		/*
 		 * si el personaje que estaba en estado en espera esta sin vida, se asigna 
@@ -66,7 +91,7 @@ public class ControladorPelea {
 		{
 			
 			new LuchaAdapter().guardar(turnoDe.getP(), esperando.getP());
-			return turnoDe;
+			return turnoDe.getP();
 		}
 		else
 		{
