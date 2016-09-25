@@ -1,14 +1,16 @@
 CREATE TABLE `personajes` (
   `id_personaje` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombre` varchar(45) CHARACTER SET utf8 NOT NULL,
   `puntos_disp` int(11) DEFAULT '200',
   `vida` int(11) DEFAULT NULL,
   `energia` int(11) DEFAULT NULL,
   `defensa` int(11) DEFAULT NULL,
   `evasion` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_personaje`),
-  UNIQUE KEY `id_UNIQUE` (`id_personaje`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  UNIQUE KEY `id_UNIQUE` (`id_personaje`),
+  UNIQUE KEY `nombre_UNIQUE` (`nombre`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 CREATE TABLE `partida` (
   `id_partida` int(11) NOT NULL AUTO_INCREMENT,
