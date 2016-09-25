@@ -1,6 +1,7 @@
 package console;
 
 import entities.Personaje;
+import logic.*;
 
 public class Prueba {
 
@@ -8,18 +9,16 @@ public class Prueba {
 		
 		
 		
-		Personaje p1 = new Personaje();
-		Personaje p2 = new Personaje();
-		
-		p1.setNombre("Chizzo");
-		p2.setNombre("Algy");
-		
-		p2.setEvasion(50);
-		
-		
-		for (int i = 0; i < 10; i++)
-			System.out.println(p1.atacar(p2,20));
-		
+		PersonajeLogic pl = new PersonajeLogic();
+		Personaje p = new Personaje();
+		p.setNombre("damian");
+		try{
+		System.out.println(pl.GetByNombre(p).getNombre());
+		}
+		catch(Exception e)
+		{
+			System.out.println("no");
+		}
 
 	}
 

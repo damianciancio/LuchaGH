@@ -48,7 +48,7 @@ public class PersonajeAdapter {
 
 	public Personaje GetByNombre(Personaje pj) throws Exception
 	{
-		Personaje p = null;
+		Personaje p = new Personaje();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		String query = "select * from personajes where personajes.nombre = ?";
@@ -73,7 +73,7 @@ public class PersonajeAdapter {
 		
 		
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw new Exception( e);
 		}
 		finally {
 			try {
