@@ -15,6 +15,9 @@ public class ControladorPelea {
 	
 	public ControladorPelea(Personaje pe1, Personaje pe2)
 	{
+		/*recibe los dos personajes elegidos y y crea dos personajeLuchando, despues
+		 * le da el primer turno a alguno de forma random
+		 */
 		p1 = new PersonajeLuchando(pe1);
 		p2 = new PersonajeLuchando(pe2);
 		
@@ -33,6 +36,10 @@ public class ControladorPelea {
 	}
 	public boolean atacar(int cantPtos)
 	{
+		/*
+		 * resultado esta en true si el oponente no lo evadio, el metodo atacar de 
+		 * Personaje se encarga de restar los puntos
+		 */
 		boolean resultado;
 		if(turnoDe.getEnergiaActual()<=cantPtos)
 		{
@@ -50,8 +57,14 @@ public class ControladorPelea {
 	
 	public PersonajeLuchando cambiarDeTurno() throws ErrorConexionException, Exception
 	{
+		/*
+		 * si el personaje que estaba en estado en espera esta sin vida, se asigna 
+		 * el otro como ganador y se guarda la lucha en la base de datos, devuelve el ganador para
+		 * mostrarlo en la interfaz como ganador
+		 */
 		if(esperando.getEstado() == PersonajeState.SIN_VIDA)
 		{
+			
 			new LuchaAdapter().guardar(turnoDe.getP(), esperando.getP());
 			return turnoDe;
 		}

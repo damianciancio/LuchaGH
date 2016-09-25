@@ -9,6 +9,9 @@ public class PersonajeLuchando {
 	
 	public PersonajeLuchando(Personaje p)
 	{
+		/*
+		 * recibe como parametro el personaje y setea los valores iniciales
+		 */
 		this.setP(p);
 		this.setEnergiaActual(this.getP().getEnergia());
 		this.setVidaActual(this.getP().getVida());
@@ -73,6 +76,9 @@ public class PersonajeLuchando {
 	}
 
 	public void defender() {
+		/*
+		 * aumenta la vida y la energia segun la formula dedel tp
+		 */
 		this.setVidaActual(this.getVidaActual()+(this.getP().getDefensa()*this.getP().getVida())/250);
 		this.setEnergiaActual(this.getEnergiaActual()+(this.getP().getDefensa()*this.getP().getEnergia()/100));
 	}
