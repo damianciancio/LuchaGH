@@ -91,7 +91,7 @@ public class Personaje extends Entidad {
 		return tirada > this.getEvasion();
 	}
 	
-	public boolean Equals(Personaje pj) {
+	public boolean equals(Personaje pj) {
 		return pj.getNombre().equals(pj.getNombre());
 	}
 }
