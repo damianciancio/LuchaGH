@@ -3,6 +3,8 @@ import java.util.Random;
 
 import data.*;
 import entities.*;
+import util.ErrorConexionException;
+import util.PersonajeState;
 
 public class ControladorPelea {
 	public PersonajeLuchando p1;
@@ -38,20 +40,28 @@ public class ControladorPelea {
 		}
 		else
 			resultado =  false;
-		cambiarDeTurno();
 		return resultado;
 	}
 	
 	public void defender()
 	{
 		turnoDe.defender();
-		cambiarDeTurno();
 	}
 	
-	public void cambiarDeTurno()
+	public PersonajeLuchando cambiarDeTurno() throws ErrorConexionException, Exception
 	{
-		PersonajeLuchando aux = turnoDe;
-		turnoDe = esperando;
-		esperando = aux;
+		if(esperando.getEstado() == PersonajeState.SIN_VIDA)
+		{
+			new LuchaAdapter().guardar(turnoDe.getP(), esperando.getP());
+			return turnoDe;
+		}
+		else
+		{
+			PersonajeLuchando aux = turnoDe;
+			turnoDe = esperando;
+			esperando = aux;
+			return null;
+		}
+		
 	}
 }
