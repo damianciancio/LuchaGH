@@ -69,4 +69,9 @@ public class PersonajeLuchando {
 		this.setEnergiaActual(this.getEnergiaActual()-cantPtos);
 		
 	}
+
+	public void defender() {
+		this.setVidaActual(this.getVidaActual()+(this.getP().getDefensa()*this.getP().getVida())/250);
+		this.setEnergiaActual(this.getEnergiaActual()+(this.getP().getDefensa()*this.getP().getEnergia()/100));
+	}
 }
