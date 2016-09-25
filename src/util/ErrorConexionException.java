@@ -1,6 +1,8 @@
 package util;
 
+@SuppressWarnings("serial")
 public class ErrorConexionException extends Exception {
+
 	public ErrorConexionException () {
 		super();
 	}

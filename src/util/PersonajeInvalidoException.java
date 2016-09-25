@@ -1,5 +1,6 @@
 package util;
 
+@SuppressWarnings("serial")
 public class PersonajeInvalidoException extends Exception {
 	
 	public PersonajeInvalidoException () {

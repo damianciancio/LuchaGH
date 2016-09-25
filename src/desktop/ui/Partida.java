@@ -1,7 +1,6 @@
 package desktop.ui;
 
 import logic.*;
-import util.ErrorConexionException;
 
 import java.awt.EventQueue;
 
@@ -31,7 +30,9 @@ import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
 public class Partida {
-
+	
+	Personaje tempPer;
+	
 	private JFrame frame;
 	private JTextField txtVidaIzq;
 	private JTextField txtVidaDer;
@@ -40,12 +41,14 @@ public class Partida {
 	private JTextField txtPtsAtaque;
 	private JRadioButton rdbtnDefender;
 	private JRadioButton rdbtnAtacar;
-	private ControladorPelea controller;
+	private PartidaLogic ctrlPartida;
 	public Personaje p1;
 	public Personaje p2;
 	JLabel lblTurnoDe;
 	JButton btnComenzar;
-	
+	JButton btnPersonajeIzq;
+	JButton btnPersonajeDer;
+	JButton btnListo;
 
 	/**
 	 * Launch the application.
@@ -68,6 +71,7 @@ public class Partida {
 	 */
 	public Partida() {
 		initialize();
+		ctrlPartida = new PartidaLogic();
 	}
 
 	/**
@@ -88,7 +92,7 @@ public class Partida {
 		gbl_pnlPersonajes.rowWeights = new double[]{0.0, Double.MIN_VALUE, 0.0, 0.0, 0.0};
 		pnlPersonajes.setLayout(gbl_pnlPersonajes);
 		
-		JButton btnPersonajeIzq = new JButton("+");
+		btnPersonajeIzq = new JButton("+");
 		btnPersonajeIzq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				elegirPersonaje1();
@@ -112,7 +116,7 @@ public class Partida {
 		gbc_lblPerIzq.gridy = 0;
 		pnlPersonajes.add(lblPerIzq, gbc_lblPerIzq);
 		
-		JButton btnPersonajeDer = new JButton("+");
+		btnPersonajeDer = new JButton("+");
 		btnPersonajeDer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				elegirPersonaje2();
@@ -269,7 +273,7 @@ public class Partida {
 		gbc_rdbtnDefender.gridy = 1;
 		pnlComenzar.add(rdbtnDefender, gbc_rdbtnDefender);
 		
-		JButton btnListo = new JButton("Listo!");
+		btnListo = new JButton("Listo!");
 		btnListo.setEnabled(false);
 		btnListo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -304,8 +308,61 @@ public class Partida {
 		txtPtsAtaque.setColumns(10); 
 	}
 	
-	public void elegirPersonaje1()
+	private void elegirPersonaje1()
 	{
+		elegirPersonaje();
+		p1 = tempPer;
+	}
+	private void elegirPersonaje2()
+	{
+		elegirPersonaje();
+		p2 = tempPer;
+	}
+	private void comenzar()
+	{
+		try {
+			ctrlPartida.comenzarPelea(p1, p2);
+			btnComenzar.setEnabled(false);
+			btnPersonajeDer.setEnabled(false);
+			btnPersonajeIzq.setEnabled(false);
+			
+			String turno = ctrlPartida.getTurnoDe().getP().getNombre();
+			lblTurnoDe.setText("Turno de: " + turno);
+			btnListo.setEnabled(true);
+		}
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(frame, ex.getMessage());
+		}
+	}
+	private void actuar()
+	{
+		//Esta linea tiene que ser reemplazada por algo que tenga sentido
+		//Con los radiobutton. Además hay que agregarle un radio button gropup
+		boolean atacar = true;
+		
+		if (atacar) {
+			try {
+				int ptosAtaque = Integer.parseInt(txtPtsAtaque.getText());
+				
+				ctrlPartida.atacar(ptosAtaque);
+				
+			}
+			catch(NumberFormatException nfex){
+				JOptionPane.showMessageDialog(this.frame, "Ingrese un numero entero en los puntos de ataque.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch(Exception ex) {
+				JOptionPane.showMessageDialog(this.frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
+		else {
+			ctrlPartida.defender();
+		}
+		
+		Refrescar();
+	}
+	
+	private void elegirPersonaje() {
 		Personajes pj = new Personajes();
 		pj.getFrame().addWindowListener(new WindowListener(){
 
@@ -323,9 +380,7 @@ public class Partida {
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				p1= pj.getPersonaje();
-				txtEneIzq.setText(String.valueOf(p1.getEnergia()));
-				txtVidaIzq.setText(String.valueOf(p1.getVida()));
+				tempPer = pj.getPersonaje();
 			}
 
 			@Override
@@ -354,104 +409,23 @@ public class Partida {
 			
 		});
 		pj.getFrame().setVisible(true);
-
 	}
-	public void elegirPersonaje2()
-	{
-		Personajes pj = new Personajes();
-		pj.getFrame().addWindowListener(new WindowListener(){
 
-			@Override
-			public void windowActivated(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+	private void Refrescar() {
 
-			@Override
-			public void windowClosed(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				p1= pj.getPersonaje();
-				txtEneDer.setText(String.valueOf(p2.getEnergia()));
-				txtVidaDer.setText(String.valueOf(p2.getVida()));
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowIconified(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		pj.getFrame().setVisible(true);
+		String vidaIzq = String.valueOf(ctrlPartida.getP1().getVidaActual());
+		String enerIzq = String.valueOf(ctrlPartida.getP1().getEnergiaActual());
+		String vidaDer = String.valueOf(ctrlPartida.getP2().getVidaActual());
+		String enerDer = String.valueOf(ctrlPartida.getP2().getEnergiaActual());
 		
-	}
-	public void comenzar()
-	{
-		if(!(p1 == null) && !(p2 == null))
-		{
-			controller = new ControladorPelea(p1,p2);
-			lblTurnoDe.setText(controller.getTurnoDe().getP().getNombre());
-			btnComenzar.setEnabled(true);
-		}
-		else
-			JOptionPane.showMessageDialog(this.frame, "Seleccione los personajes","Error", JOptionPane.ERROR_MESSAGE);
+		txtVidaIzq.setText(vidaIzq);
+		txtVidaDer.setText(vidaDer);
+		txtEneIzq.setText(enerIzq);
+		txtEneDer.setText(enerDer);
 		
-	}
-	public void actuar()
-	{
-		if(rdbtnAtacar.isSelected())
-		{
-			try
-			{
-				controller.atacar(Integer.parseInt(txtPtsAtaque.getText()));
-			}
-			catch(Exception e)
-			{
-				JOptionPane.showMessageDialog(this.frame,"Ingrese un numero entero en los puntos de ataque.","Error",JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		else
-		{
-			controller.defender();
-		}
-		try 
-		{
-			Personaje ganador = controller.cambiarDeTurno();
-			if(ganador!=null)
-			{
-				JOptionPane.showMessageDialog(this.frame, "El personaje "+ganador.getNombre()+" ha ganado la partida! Se le sumaron 10 puntos","Felicitaciones!",JOptionPane.INFORMATION_MESSAGE);
-			}
-		} 
-		catch (ErrorConexionException e) 
-		{
-			JOptionPane.showMessageDialog(this.frame, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-		} 
-		catch (Exception e) 
-		{
-			JOptionPane.showMessageDialog(this.frame, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-		}
+		String turnoDe = ctrlPartida.getTurnoDe().getP().getNombre();
+		lblTurnoDe.setText("Turno de " + turnoDe);
+		
+		// TODO Limpiar los radioButtons
 	}
 }

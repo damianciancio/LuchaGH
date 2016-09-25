@@ -71,9 +71,6 @@ public class Personaje extends Entidad {
 	public boolean atacar(Personaje atacado, int cantPtos)
 	{
 		return atacado.recibirAtaque(cantPtos);
-		
-		
-		
 	}
 	public boolean recibirAtaque(int cantPtos)
 	{

@@ -1,8 +1,9 @@
-package logic;
-import entities.*;
-import util.PersonajeState;
+package entities;
 
 public class PersonajeLuchando {
+
+	public enum PersonajeState { NORMAL, SIN_VIDA, SIN_ENERGIA }
+
 	private Personaje p;
 	private int vidaActual;
 	private int energiaActual;
@@ -50,18 +51,22 @@ public class PersonajeLuchando {
 		this.energiaActual = energiaActual;
 	}
 	
-	public boolean atacar(PersonajeLuchando pAtacado, int cantPtos)
+	
+	//Revisar despues
+	public boolean atacar(PersonajeLuchando pAtacado, int cantPtos) throws Exception
 	{
-		if(this.getP().atacar(pAtacado.getP(), cantPtos))
-		{
+		if (this.getEnergiaActual() < cantPtos){
+			throw new Exception("No posee suficientes puntos para realizar el ataque");
+		}
+		
+		boolean ataqueExitoso = this.getP().atacar(pAtacado.getP(), cantPtos);
+		
+		if(ataqueExitoso){
 			pAtacado.restarVida(cantPtos);
 			this.restarEnergia(cantPtos);
-			return true;
 		}
-		else
-		{
-			return false;
-		}
+		
+		return ataqueExitoso;
 	}
 	
 	public void restarVida(int cantPtos)
@@ -82,6 +87,5 @@ public class PersonajeLuchando {
 		this.setVidaActual(this.getVidaActual()+(this.getP().getDefensa()*this.getP().getVida())/250);
 		this.setEnergiaActual(this.getEnergiaActual()+(this.getP().getDefensa()*this.getP().getEnergia()/100));
 	}
-
-	
 }
+	
