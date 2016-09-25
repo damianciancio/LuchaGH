@@ -70,16 +70,10 @@ public class Personaje extends Entidad {
 		this.evasion = evasion;
 	}
 
-	public String atacar(Personaje atacado, int cantPtos)
+	public boolean atacar(Personaje atacado, int cantPtos)
 	{
-		if(atacado.recibirAtaque(cantPtos))
-		{
-			return this.getNombre()+" ha atacado satisfactoriamente a "+ atacado.getNombre();
-		}
-		else
-		{
-			return this.getNombre()+" siga participando.";
-		}
+		return atacado.recibirAtaque(cantPtos);
+		
 		
 		
 	}
