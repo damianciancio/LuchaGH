@@ -26,6 +26,8 @@ import entities.Personaje;
 
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
 public class Partida {
@@ -39,8 +41,8 @@ public class Partida {
 	private JRadioButton rdbtnDefender;
 	private JRadioButton rdbtnAtacar;
 	private ControladorPelea controller;
-	private Personaje p1;
-	private Personaje p2;
+	public Personaje p1;
+	public Personaje p2;
 	JLabel lblTurnoDe;
 	JButton btnComenzar;
 	
@@ -305,18 +307,110 @@ public class Partida {
 	public void elegirPersonaje1()
 	{
 		Personajes pj = new Personajes();
+		pj.getFrame().addWindowListener(new WindowListener(){
+
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				p1= pj.getPersonaje();
+				txtEneIzq.setText(String.valueOf(p1.getEnergia()));
+				txtVidaIzq.setText(String.valueOf(p1.getVida()));
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowIconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		pj.getFrame().setVisible(true);
-		p1 = pj.getPersonaje();
+
 	}
 	public void elegirPersonaje2()
 	{
 		Personajes pj = new Personajes();
+		pj.getFrame().addWindowListener(new WindowListener(){
+
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				p1= pj.getPersonaje();
+				txtEneDer.setText(String.valueOf(p2.getEnergia()));
+				txtVidaDer.setText(String.valueOf(p2.getVida()));
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowIconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		pj.getFrame().setVisible(true);
-		p1 = pj.getPersonaje();
+		
 	}
 	public void comenzar()
 	{
-		if(!p1.equals(null)&&!p2.equals(null))
+		if(!(p1 == null) && !(p2 == null))
 		{
 			controller = new ControladorPelea(p1,p2);
 			lblTurnoDe.setText(controller.getTurnoDe().getP().getNombre());

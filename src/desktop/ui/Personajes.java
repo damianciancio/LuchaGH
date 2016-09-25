@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import logic.PersonajeLogic;
@@ -73,8 +74,10 @@ public class Personajes {
 		
 		ctrlPers=new PersonajeLogic();
 		refrescar();
+		
 	}
 
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -188,7 +191,7 @@ public class Personajes {
 		//Capturo el personaje seleccionado y le asigno el estaod modificado
 		personajeActual = (Personaje)listPersonajes.getSelectedValue();
 		
-		this.frame.dispose();
+		this.frame.setVisible(false);;
 	}
 	
 	private void AddPersonaje() {
