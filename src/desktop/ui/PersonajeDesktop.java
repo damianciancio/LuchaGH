@@ -1,6 +1,6 @@
 package desktop.ui;
 import logic.PersonajeLogic;
-import entities.Personaje;
+import entities.*;
 
 import java.awt.EventQueue;
 
@@ -55,22 +55,26 @@ public class PersonajeDesktop {
 	private JTextField txtPtsrest;
 
 	private PersonajeLogic ctrlPers;
+	Personaje perActual;
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PersonajeDesktop window = new PersonajeDesktop();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+/**
+ *	 public static void main(String[] args) {
+ *	 
+ *		EventQueue.invokeLater(new Runnable() {
+ *			public void run() {
+ *				try {
+ *					PersonajeDesktop window = new PersonajeDesktop();
+ *					window.frame.setVisible(true);
+ *				} catch (Exception e) {
+ *					e.printStackTrace();
+ *				}
+ *			}
+ *		});
+ *	}
+ */
 
 	/**
 	 * Create the application.
@@ -78,7 +82,9 @@ public class PersonajeDesktop {
 	public PersonajeDesktop() {
 		initialize();
 		
-		ctrlPers=new PersonajeLogic();
+		perActual = new Personaje();
+		perActual.setEstData(Entidad.estadoData.New);
+		ctrlPers = new PersonajeLogic();
 	}
 
 	/**
@@ -336,13 +342,13 @@ public class PersonajeDesktop {
 		panelCentro.add(lblMaxevasion, gbc_lblMaxevasion);
 	}
 	
-	
 	public void guardar()
 	{
 		if(validar())
 		{
 			try {
 				ctrlPers.guardar(this.mapearADatos());
+				this.cerrar();
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this.frame, e.getMessage());
 			}
@@ -399,15 +405,36 @@ public class PersonajeDesktop {
 	}
 	
 	private Personaje mapearADatos(){
-		Personaje p= new Personaje();
 		
-		p.setNombre(txtNombreusuario.getText());
-		p.setDefensa(parseAttributo(txtDefensa));
-		p.setEvasion(parseAttributo(txtEvasion));
-		p.setVida(parseAttributo(txtVida));
-		p.setEnergia(parseAttributo(txtEnergia));
+		perActual.setNombre(txtNombreusuario.getText());
+		perActual.setDefensa(parseAttributo(txtDefensa));
+		perActual.setEvasion(parseAttributo(txtEvasion));
+		perActual.setVida(parseAttributo(txtVida));
+		perActual.setEnergia(parseAttributo(txtEnergia));
 		
-		return p;
+		return perActual;
+	}
+	
+	public void mapearDeDatos(Personaje per) {
+
+		perActual = per;
+		
+		String perID = String.valueOf(per.getId());
+		String perVida = String.valueOf(per.getVida());
+		String perDefensa = String.valueOf(per.getDefensa());
+		String perEnergia = String.valueOf(per.getEnergia());
+		String perEvasion = String.valueOf(per.getEvasion());
+		String perNombre = per.getNombre();
+		
+		
+		this.txtId.setText(perID);
+		this.txtNombreusuario.setText(perNombre);
+		this.txtVida.setText(perVida);
+		this.txtDefensa.setText(perDefensa);
+		this.txtEnergia.setText(perEnergia);
+		this.txtEvasion.setText(perEvasion);
+		
+		
 	}
 
 	private void calcularRestantes()
@@ -466,6 +493,8 @@ public class PersonajeDesktop {
 		this.frame.dispose();
 	}
 
-
+	public JFrame getFrame() {
+		return frame;
+	}
 }
 

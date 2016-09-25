@@ -59,6 +59,19 @@ public class PersonajeAdapter {
 	
 	public void Guardar(Personaje pj) throws Exception, ErrorConexionException
 	{
+		switch(pj.getEstData()) {
+		case New:
+			addPersonaje(pj);
+			break;
+		case Modified:
+			editPersonaje(pj);
+				break;
+		default:
+			break;
+		}
+	}
+
+	public void addPersonaje(Personaje pj) throws Exception, ErrorConexionException {
 		//_list.add(pj);
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
@@ -101,11 +114,50 @@ public class PersonajeAdapter {
 				throw new Exception("Error al cerrar conexion",e);
 			}
 		}
+	}
+	
+	public void editPersonaje(Personaje pj) throws Exception, ErrorConexionException {
+		//
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
 		
 		
-		
-		
-		
-		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"Update personajes Set "
+					+ "nombre = ?, "
+					+ "puntos_disp = ?, "
+					+ "vida = ?, "
+					+ "energia = ?, "
+					+ "defensa = ?, "
+					+ "evasion = ? "
+					+ "Where id_personaje = ?");
+						
+			stmt.setString(1, pj.getNombre());
+			stmt.setInt(2, pj.getPtsDisp());
+			stmt.setInt(3, pj.getVida());
+			stmt.setInt(4, pj.getEnergia());
+			stmt.setInt(5, pj.getDefensa());
+			stmt.setInt(6, pj.getEvasion());
+			stmt.setInt(7, pj.getId());
+			stmt.execute();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new Exception("Error al editar personaje", e);
+		} catch (ErrorConexionException e) {
+			throw e;
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (ErrorConexionException e) {
+				throw e;
+			} catch (SQLException e) {
+				throw new Exception("Error al cerrar conexion",e);
+			}
+		}
 	}
 }

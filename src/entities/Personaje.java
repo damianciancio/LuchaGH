@@ -15,6 +15,7 @@ public class Personaje extends Entidad {
 	
 	public Personaje()
 	{
+		setEstData(Entidad.estadoData.Unmodified);
 		ptsDisp = 200;
 	}	
 	

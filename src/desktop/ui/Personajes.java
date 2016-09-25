@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -21,6 +22,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 
+import entities.Entidad;
 import entities.Personaje;
 
 import javax.swing.border.EmptyBorder;
@@ -31,6 +33,7 @@ import java.awt.Dimension;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -40,6 +43,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import logic.PersonajeLogic;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -111,6 +115,7 @@ public class Personajes {
 		JButton btnAadir = new JButton("A\u00F1adir");
 		btnAadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				AddPersonaje();
 			}
 		});
 		btnAadir.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -122,6 +127,11 @@ public class Personajes {
 		panelDerecho.add(btnAadir, gbc_btnAadir);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EditPersonaje();
+			}
+		});
 		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
 		gbc_btnEditar.fill = GridBagConstraints.BOTH;
 		gbc_btnEditar.insets = new Insets(0, 0, 5, 0);
@@ -130,6 +140,11 @@ public class Personajes {
 		panelDerecho.add(btnEditar, gbc_btnEditar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DeletePersonaje();
+			}
+		});
 		GridBagConstraints gbc_btnEliminar = new GridBagConstraints();
 		gbc_btnEliminar.fill = GridBagConstraints.BOTH;
 		gbc_btnEliminar.gridx = 0;
@@ -145,17 +160,6 @@ public class Personajes {
 	}
 	
 	private void Refrescar() {
-		/*ArrayList<Personaje> _list = null;
-		try
-		{
-			_list = ctrlPers.GetAll();
-			for (int i = 0 ; i < _list.size() ; i++) {
-				Personaje per = _list.get(i);
-				
-			}
-			
-			listPersonajes = new JList(_list.toArray());
-		}*/
 		try
 		{
 			DefaultListModel modelo = new DefaultListModel();
@@ -170,9 +174,44 @@ public class Personajes {
 		{
 			JOptionPane.showMessageDialog(frame, e.getMessage());
 		}
+	}
+	
+	private void AddPersonaje() {
+		PersonajeDesktop pj = new PersonajeDesktop();
+		JFrame pjFrame = pj.getFrame();
 		
 		
+		//JDialog pjDialog = new JDialog(this.frame, "asd", true);
+		//pjDialog.add(pjFrame);
+		//pjDialog.pack();
+		//pjDialog.setModal(true);
+		//pjDialog.setVisible(true);
 		
+		pjFrame.setVisible(true);
 		
+		Refrescar();
+	}
+	private void EditPersonaje() {
+		//Valido que se haya elegido a alguien
+		if (listPersonajes.isSelectionEmpty()){
+			JOptionPane.showMessageDialog(frame, "Elija un personaje");
+			return;
+		}
+		
+		Personaje per = (Personaje)listPersonajes.getSelectedValue();
+		per.setEstData(Entidad.estadoData.Modified);
+		
+		PersonajeDesktop pj = new PersonajeDesktop();
+		JFrame pjFrame = pj.getFrame();
+		
+		pj.mapearDeDatos(per);
+		pjFrame.setVisible(true);
+		
+		Refrescar();
+	}
+	private void DeletePersonaje() {
+
+		
+		Refrescar();
 	}
 }
