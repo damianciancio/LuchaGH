@@ -10,7 +10,6 @@ import util.ErrorConexionException;
 public class LuchaAdapter {
 	public void guardar(Personaje pjGan, Personaje pjPer) throws Exception, ErrorConexionException
 		{
-			//_list.add(pj);
 			ResultSet rs=null;
 			PreparedStatement stmt=null;
 			
