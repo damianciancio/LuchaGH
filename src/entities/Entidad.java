@@ -3,7 +3,7 @@ package entities;
 public class Entidad {
 	private int id;
 	private estadoData estData;
-	public enum estadoData { New, Modified, Unmodified };
+	public enum estadoData { New, Modified, Unmodified, Deleted };
 	
 
 	public int getId() {

@@ -65,13 +65,16 @@ public class PersonajeAdapter {
 			break;
 		case Modified:
 			editPersonaje(pj);
-				break;
+			break;
+		case Deleted:
+			deletePersonaje(pj);
+			break;
 		default:
 			break;
 		}
 	}
 
-	public void addPersonaje(Personaje pj) throws Exception, ErrorConexionException {
+	private void addPersonaje(Personaje pj) throws Exception, ErrorConexionException {
 		//_list.add(pj);
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
@@ -116,7 +119,7 @@ public class PersonajeAdapter {
 		}
 	}
 	
-	public void editPersonaje(Personaje pj) throws Exception, ErrorConexionException {
+	private void editPersonaje(Personaje pj) throws Exception, ErrorConexionException {
 		//
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
@@ -159,5 +162,37 @@ public class PersonajeAdapter {
 				throw new Exception("Error al cerrar conexion",e);
 			}
 		}
+	}
+	
+	private void deletePersonaje(Personaje pj) throws Exception, ErrorConexionException {
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"Delete From personajes "
+					+ "Where id_personaje = ?");
+						
+			stmt.setInt(1, pj.getId());
+			stmt.execute();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new Exception("Error al editar personaje", e);
+		} catch (ErrorConexionException e) {
+			throw e;
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (ErrorConexionException e) {
+				throw e;
+			} catch (SQLException e) {
+				throw new Exception("Error al cerrar conexion",e);
+			}
+		}
+		
 	}
 }

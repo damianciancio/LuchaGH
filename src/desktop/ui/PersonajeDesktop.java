@@ -2,28 +2,19 @@ package desktop.ui;
 import logic.PersonajeLogic;
 import entities.*;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 
-import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
-import javax.swing.BoxLayout;
 
 import java.awt.Dimension;
 
@@ -34,12 +25,8 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 
-import util.PersonajeInvalidoException;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -202,7 +189,7 @@ public class PersonajeDesktop {
 		frame.getContentPane().add(panelCentro, BorderLayout.CENTER);
 		GridBagLayout gbl_panelCentro = new GridBagLayout();
 		gbl_panelCentro.columnWidths = new int[] {10, 40, 86, 60, 66, 5, 0};
-		gbl_panelCentro.rowHeights = new int[] {5, 20, 20, 20, 20, 5, 0};
+		gbl_panelCentro.rowHeights = new int[] {5, 20, 20, 20, 20};
 		gbl_panelCentro.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelCentro.setLayout(gbl_panelCentro);

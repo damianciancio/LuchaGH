@@ -7,20 +7,12 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
-import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 
 import entities.Entidad;
 import entities.Personaje;
@@ -29,13 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-import java.awt.Dimension;
-
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
-import javax.swing.ListSelectionModel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import java.awt.event.WindowAdapter;
@@ -49,8 +35,9 @@ import java.awt.event.ActionEvent;
 
 public class Personajes {
 
+	private Personaje personajeActual;
 	private PersonajeLogic ctrlPers;
-	private JList listPersonajes;
+	private JList<Personaje> listPersonajes;
 	private JFrame frame;
 
 	/**
@@ -105,6 +92,11 @@ public class Personajes {
 		panelDerecho.setLayout(gbl_panelDerecho);
 		
 		JButton btnElegir = new JButton("Elegir");
+		btnElegir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Elegir();
+			}
+		});
 		GridBagConstraints gbc_btnElegir = new GridBagConstraints();
 		gbc_btnElegir.fill = GridBagConstraints.BOTH;
 		gbc_btnElegir.insets = new Insets(0, 0, 5, 0);
@@ -154,7 +146,7 @@ public class Personajes {
 		JScrollPane panelCentral = new JScrollPane();
 		frame.getContentPane().add(panelCentral, BorderLayout.CENTER);
 		
-		listPersonajes = new JList();
+		listPersonajes = new JList<Personaje>();
 		
 		panelCentral.setViewportView(listPersonajes);
 	}
@@ -162,7 +154,7 @@ public class Personajes {
 	private void Refrescar() {
 		try
 		{
-			DefaultListModel modelo = new DefaultListModel();
+			DefaultListModel<Personaje> modelo = new DefaultListModel<Personaje>();
 			ArrayList<Personaje> personajes = new PersonajeLogic().GetAll();
 			
 			for (Personaje personaje : personajes) {
@@ -174,6 +166,19 @@ public class Personajes {
 		{
 			JOptionPane.showMessageDialog(frame, e.getMessage());
 		}
+	}
+	
+	private void Elegir() {
+		//Valido que se haya elegido a alguien
+		if (listPersonajes.isSelectionEmpty()){
+			JOptionPane.showMessageDialog(frame, "Elija un personaje");
+			return;
+		}
+		
+		//Capturo el personaje seleccionado y le asigno el estaod modificado
+		personajeActual = (Personaje)listPersonajes.getSelectedValue();
+		
+		this.frame.dispose();
 	}
 	
 	private void AddPersonaje() {
@@ -198,20 +203,50 @@ public class Personajes {
 			return;
 		}
 		
+		//Capturo el personaje seleccionado y le asigno el estaod modificado
 		Personaje per = (Personaje)listPersonajes.getSelectedValue();
 		per.setEstData(Entidad.estadoData.Modified);
 		
+		//Creo la ventana de edición
 		PersonajeDesktop pj = new PersonajeDesktop();
 		JFrame pjFrame = pj.getFrame();
-		
 		pj.mapearDeDatos(per);
+		
+		//Esto es a corregir. Hay que hacerlo modal
 		pjFrame.setVisible(true);
 		
+		//Se refresca la lista
 		Refrescar();
 	}
 	private void DeletePersonaje() {
+		//Valido que se haya elegido a alguien
+		if (listPersonajes.isSelectionEmpty()){
+			JOptionPane.showMessageDialog(frame, "Elija un personaje");
+			return;
+		}
+		
+		//Capturo el personaje seleccionado y le asigno el estaod modificado
+		Personaje per = (Personaje)listPersonajes.getSelectedValue();
+		String msj = "Está seguro que desea eliminar a " + per.getNombre() + "?";
+		
+		int response = JOptionPane.showConfirmDialog(frame, msj, "Eliminar Personaje", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		
+		if (response == JOptionPane.YES_OPTION) {
 
+			try
+			{
+				per.setEstData(Entidad.estadoData.Deleted);
+				ctrlPers.guardar(per);
+			}
+			catch(Exception ex) {
+				JOptionPane.showMessageDialog(frame, ex.getMessage());
+			}
+		}
 		
 		Refrescar();
+	}
+	
+	public Personaje getPersonaje() {
+		return personajeActual;
 	}
 }
