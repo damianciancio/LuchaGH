@@ -1,7 +1,7 @@
 package data;
 import java.sql.*;
 import java.util.ArrayList;
-import util.PersonajeNoEncontradoException;
+
 import entities.*;
 import util.*;
 
@@ -46,15 +46,49 @@ public class PersonajeAdapter {
 		//return _list;
 	}
 
-	public Personaje GetByNombre(Personaje pj) throws PersonajeNoEncontradoException
+	public Personaje GetByNombre(Personaje pj) throws Exception
 	{
-		int indice = _list.indexOf(pj);
+		Personaje p = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		String query = "select * from personajes where personajes.nombre = ?";
+		try 
+		{
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("SELECT * FROM personajes"
+					+ " where personajes.nombre = ?");
+			stmt.setString(1, pj.getNombre());
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) 
+			{
+				p.setId(rs.getInt(1));
+				p.setNombre(rs.getString(2));
+				p.setPtsDisp(rs.getInt(3));
+				p.setVida(rs.getInt(4));
+				p.setEnergia(rs.getInt(5));
+				p.setDefensa(rs.getInt(6));
+				p.setEvasion(rs.getInt(7));
+				
+			}
 		
-		if (indice == -1) throw new PersonajeNoEncontradoException("No se ha encontrado el personaje");
-
-		Personaje result = _list.get(indice);
 		
-		return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		finally {
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (ErrorConexionException e) {
+				throw e;
+			} catch (SQLException e) {
+				throw new Exception("Error al cerrar conexion",e);
+			}
+		}
+		
+		
+		return p;
 	}
 	
 	public void Guardar(Personaje pj) throws Exception, ErrorConexionException

@@ -68,7 +68,7 @@ public class PersonajeLogic {
 		}
 	}
 	
-	public Personaje GetByNombre(Personaje pj) throws PersonajeNoEncontradoException {
+	public Personaje GetByNombre(Personaje pj) throws Exception {
 		return _db.GetByNombre(pj);
 	}
 }
