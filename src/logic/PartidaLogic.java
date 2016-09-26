@@ -39,7 +39,7 @@ public class PartidaLogic {
 	public void comenzarPelea(Personaje pj1, Personaje pj2) throws PersonajeNoEncontradoException, PersonajeInvalidoException {
 		if (pj1 == null || pj2 == null)
 			throw new PersonajeNoEncontradoException("Elija ambos personajes");
-		if (pj1 == pj2)
+		if (pj1.equals(pj2))
 			throw new PersonajeInvalidoException("Elija personajes distintos");
 		
 		p1 = new PersonajeLuchando(pj1);
