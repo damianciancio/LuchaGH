@@ -1,6 +1,7 @@
 package desktop.ui;
 
 import logic.*;
+import data.*;
 
 import java.awt.EventQueue;
 
@@ -44,7 +45,9 @@ public class Partida {
 	private PartidaLogic ctrlPartida;
 	public Personaje p1;
 	public Personaje p2;
-	JLabel lblTurnoDe;
+	JLabel lblTurno;
+	JLabel lblPerIzq;
+	JLabel lblPerDer;
 	JButton btnComenzar;
 	JButton btnPersonajeIzq;
 	JButton btnPersonajeDer;
@@ -72,6 +75,8 @@ public class Partida {
 	public Partida() {
 		initialize();
 		ctrlPartida = new PartidaLogic();
+		
+		
 	}
 
 	/**
@@ -107,7 +112,7 @@ public class Partida {
 		gbc_btnPersonajeIzq.gridy = 0;
 		pnlPersonajes.add(btnPersonajeIzq, gbc_btnPersonajeIzq);
 		
-		JLabel lblPerIzq = new JLabel("Elija un Personaje");
+		lblPerIzq = new JLabel("Elija un Personaje");
 		lblPerIzq.setFont(new Font("Tahoma", Font.BOLD, 14));
 		GridBagConstraints gbc_lblPerIzq = new GridBagConstraints();
 		gbc_lblPerIzq.anchor = GridBagConstraints.WEST;
@@ -132,7 +137,7 @@ public class Partida {
 		gbc_btnPersonajeDer.gridy = 0;
 		pnlPersonajes.add(btnPersonajeDer, gbc_btnPersonajeDer);
 		
-		JLabel lblPerDer = new JLabel("Elija un Personaje");
+		lblPerDer = new JLabel("Elija un Personaje");
 		lblPerDer.setFont(new Font("Tahoma", Font.BOLD, 14));
 		GridBagConstraints gbc_lblPerDer = new GridBagConstraints();
 		gbc_lblPerDer.anchor = GridBagConstraints.WEST;
@@ -247,7 +252,7 @@ public class Partida {
 		gbl_pnlComenzar.rowWeights = new double[]{0.0};
 		pnlComenzar.setLayout(gbl_pnlComenzar);
 		
-		JLabel lblTurno = new JLabel("Turno: ");
+		lblTurno = new JLabel("Turno: ");
 		lblTurno.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_lblTurno = new GridBagConstraints();
 		gbc_lblTurno.gridwidth = 3;
@@ -312,11 +317,43 @@ public class Partida {
 	{
 		elegirPersonaje();
 		p1 = tempPer;
+		
+		// TODO borrar la siguiente linea
+		try {
+			p1 = new PersonajeAdapter().GetAll().get(0);
+		}
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(frame, ex.getMessage());
+		}
+		
+		String nombre = p1.getNombre();
+		String vida = String.valueOf(p1.getVida());
+		String ener = String.valueOf(p1.getEnergia());
+		
+		txtVidaIzq.setText(vida);
+		txtEneIzq.setText(ener);
+		lblPerIzq.setText(nombre);
 	}
 	private void elegirPersonaje2()
 	{
 		elegirPersonaje();
 		p2 = tempPer;
+
+		// TODO borrar la siguiente linea
+		try {
+			p2 = new PersonajeAdapter().GetAll().get(1);
+		}
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(frame, ex.getMessage());
+		}
+		
+		String nombre = p2.getNombre();
+		String vida = String.valueOf(p2.getVida());
+		String ener = String.valueOf(p2.getEnergia());
+		
+		txtVidaDer.setText(vida);
+		txtEneDer.setText(ener);
+		lblPerDer.setText(nombre);
 	}
 	private void comenzar()
 	{
@@ -327,7 +364,7 @@ public class Partida {
 			btnPersonajeIzq.setEnabled(false);
 			
 			String turno = ctrlPartida.getTurnoDe().getP().getNombre();
-			lblTurnoDe.setText("Turno de: " + turno);
+			lblTurno.setText("Turno de: " + turno);
 			btnListo.setEnabled(true);
 		}
 		catch (Exception ex) {
@@ -336,9 +373,13 @@ public class Partida {
 	}
 	private void actuar()
 	{
-		//Esta linea tiene que ser reemplazada por algo que tenga sentido
-		//Con los radiobutton. Además hay que agregarle un radio button gropup
-		boolean atacar = true;
+		boolean atacar = rdbtnAtacar.isSelected();
+		boolean defender = rdbtnDefender.isSelected();
+		
+		if (!(atacar ^ defender)) {
+			JOptionPane.showMessageDialog(frame, "Seleccione atacar O defender");
+			return;
+		}
 		
 		if (atacar) {
 			try {
@@ -424,7 +465,7 @@ public class Partida {
 		txtEneDer.setText(enerDer);
 		
 		String turnoDe = ctrlPartida.getTurnoDe().getP().getNombre();
-		lblTurnoDe.setText("Turno de " + turnoDe);
+		lblTurno.setText("Turno de " + turnoDe);
 		
 		// TODO Limpiar los radioButtons
 	}

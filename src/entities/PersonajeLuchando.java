@@ -60,10 +60,10 @@ public class PersonajeLuchando {
 		}
 		
 		boolean ataqueExitoso = this.getP().atacar(pAtacado.getP(), cantPtos);
+		this.restarEnergia(cantPtos);
 		
 		if(ataqueExitoso){
 			pAtacado.restarVida(cantPtos);
-			this.restarEnergia(cantPtos);
 		}
 		
 		return ataqueExitoso;
@@ -86,6 +86,9 @@ public class PersonajeLuchando {
 		 */
 		this.setVidaActual(this.getVidaActual()+(this.getP().getDefensa()*this.getP().getVida())/250);
 		this.setEnergiaActual(this.getEnergiaActual()+(this.getP().getDefensa()*this.getP().getEnergia()/100));
+
+		if (getVidaActual() > p.getVida()) setVidaActual(p.getVida());
+		if (getEnergiaActual() > p.getEnergia()) setEnergiaActual(p.getEnergia());
 	}
 }
 	

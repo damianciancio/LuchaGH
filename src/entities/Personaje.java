@@ -81,6 +81,6 @@ public class Personaje extends Entidad {
 	}
 	
 	public boolean equals(Personaje pj) {
-		return pj.getNombre().equals(pj.getNombre());
+		return this.getNombre().equals(pj.getNombre());
 	}
 }
