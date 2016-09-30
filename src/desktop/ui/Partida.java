@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -303,6 +305,11 @@ public class Partida {
 		gbc_rdbtnAtacar.gridy = 2;
 		pnlComenzar.add(rdbtnAtacar, gbc_rdbtnAtacar);
 		
+		//los agrego al mismo ButtonGroup así son mutuamente excluyentes
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(rdbtnAtacar);
+		bg.add(rdbtnDefender);
+		
 		txtPtsAtaque = new JTextField();
 		txtPtsAtaque.setMaximumSize(new Dimension(45, 20));
 		txtPtsAtaque.setMinimumSize(new Dimension(45, 20));
@@ -320,13 +327,7 @@ public class Partida {
 		elegirPersonaje();
 		p1 = tempPer;
 		
-		// TODO borrar la siguiente linea
-		try {
-			p1 = new PersonajeAdapter().GetAll().get(0);
-		}
-		catch (Exception ex) {
-			JOptionPane.showMessageDialog(frame, ex.getMessage());
-		}
+		
 		
 		String nombre = p1.getNombre();
 		String vida = String.valueOf(p1.getVida());
@@ -341,13 +342,7 @@ public class Partida {
 		elegirPersonaje();
 		p2 = tempPer;
 
-		// TODO borrar la siguiente linea
-		try {
-			p2 = new PersonajeAdapter().GetAll().get(1);
-		}
-		catch (Exception ex) {
-			JOptionPane.showMessageDialog(frame, ex.getMessage());
-		}
+		
 		
 		String nombre = p2.getNombre();
 		String vida = String.valueOf(p2.getVida());
