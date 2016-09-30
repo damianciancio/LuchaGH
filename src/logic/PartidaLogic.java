@@ -34,7 +34,7 @@ public class PartidaLogic {
 	}
 
 	public PartidaLogic() {
-		
+		PartidaVigente = false;
 	}
 	
 	public void comenzarPelea(Personaje pj1, Personaje pj2) throws PersonajeNoEncontradoException, PersonajeInvalidoException {
@@ -60,7 +60,7 @@ public class PartidaLogic {
 	}
 
 	
-	public boolean atacar(int cantPtos) throws Exception, ErrorConexionException, PartidaTerminadaException
+	public boolean atacar(int cantPtos) throws Exception, ErrorConexionException
 	{
 		boolean ataqueExitoso = turnoDe.atacar(esperando, cantPtos);
 		cambiarDeTurno();
@@ -68,13 +68,13 @@ public class PartidaLogic {
 		return ataqueExitoso;
 	}
 	
-	public void defender() throws Exception, ErrorConexionException, PartidaTerminadaException
+	public void defender() throws Exception, ErrorConexionException
 	{
 		turnoDe.defender();
 		cambiarDeTurno();
 	}
 	
-	private void cambiarDeTurno() throws ErrorConexionException, Exception, PartidaTerminadaException
+	private void cambiarDeTurno() throws ErrorConexionException, Exception
 	{
 		//agrego funcionalidad de terminar la partida
 		if(esperando.getVidaActual()<=0)
@@ -94,14 +94,20 @@ public class PartidaLogic {
 		}
 	}
 	
-	public void terminarPartida() throws ErrorConexionException, Exception, PartidaTerminadaException
+	public void terminarPartida() throws ErrorConexionException, Exception
 	{
 		//guardo la victoria
 		LuchaAdapter la = new LuchaAdapter();
 		la.guardar(turnoDe.getP(), esperando.getP());
-		//lanzo excepcion para que muestre mensaje de partida terminada, los parametros son para 
-		//que haga el string del mensaje en el constructor de la exception
-		throw new PartidaTerminadaException(turnoDe.getP(), esperando.getP());		
+		
+		PartidaVigente = false;
+		
+	}
+	public boolean isPartidaVigente() {
+		return PartidaVigente;
+	}
+	public void setPartidaVigente(boolean partidaVigente) {
+		PartidaVigente = partidaVigente;
 	}
 	
 	

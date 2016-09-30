@@ -167,18 +167,8 @@ public class DialogPersonajes extends JDialog {
 	}
 	
 	private void addPersonaje() {
-		PersonajeDesktop pj = new PersonajeDesktop();
-		JFrame pjFrame = pj.getFrame();
-		
-		
-		//JDialog pjDialog = new JDialog(this.frame, "asd", true);
-		//pjDialog.add(pjFrame);
-		//pjDialog.pack();
-		//pjDialog.setModal(true);
-		//pjDialog.setVisible(true);
-		
-		pjFrame.setVisible(true);
-		
+		new DialogPersonajesDesktop().showDialog();
+
 		refrescar();
 	}
 	private void editPersonaje() {
@@ -193,12 +183,9 @@ public class DialogPersonajes extends JDialog {
 		per.setEstData(Entidad.estadoData.Modified);
 		
 		//Creo la ventana de edición
-		PersonajeDesktop pj = new PersonajeDesktop();
-		JFrame pjFrame = pj.getFrame();
-		pj.mapearDeDatos(per);
-		
-		//Esto es a corregir. Hay que hacerlo modal
-		pjFrame.setVisible(true);
+		DialogPersonajesDesktop dper = new DialogPersonajesDesktop();
+		dper.mapearDeDatos(per);
+		dper.showDialog();
 		
 		//Se refresca la lista
 		refrescar();

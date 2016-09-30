@@ -4,10 +4,13 @@ import java.sql.*;
 
 public class FactoryConexion {
 	private String dbDriver="com.mysql.jdbc.Driver";
-	private String host="85.10.205.173";
+	//private String host="85.10.205.173";
+	private String host="localhost";
 	private String port="3306";
-	private String user="usergh";
-	private String pass="rootgh";
+	private String user="root";
+	private String pass="";
+	//private String user="usergh";
+	//private String pass="rootgh";
 	private String db="luchagh";
 	private String dbType="mysql";
 	

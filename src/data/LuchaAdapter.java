@@ -16,7 +16,7 @@ public class LuchaAdapter {
 			
 			try {
 				stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-						"insert into partidas(id_personaje_ganador, id_personaje_perdedor)"+
+						"insert into partida(id_personaje_ganador, id_personaje_perdedor)"+
 						" values(?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 				// PreparedStatement.RETURN_GENERATED_KEYS to be able to retrieve id generated on the db
 				// by the autoincrement column. Otherwise don't use it

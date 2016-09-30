@@ -2,7 +2,6 @@ package desktop.ui;
 
 import logic.*;
 import util.ErrorConexionException;
-import util.PartidaTerminadaException;
 import data.*;
 
 import java.awt.EventQueue;
@@ -354,6 +353,8 @@ public class Partida {
 	}
 	private void comenzar()
 	{
+		ctrlPartida.setPartidaVigente(true);
+		
 		try {
 			btnListo.setEnabled(false);
 			ctrlPartida.comenzarPelea(p1, p2);
@@ -387,11 +388,6 @@ public class Partida {
 				ctrlPartida.atacar(ptosAtaque);
 				
 			}
-			catch(PartidaTerminadaException e)
-			{
-				//tomo excepcion
-				terminarPelea();
-			}
 			catch(NumberFormatException nfex){
 				JOptionPane.showMessageDialog(this.frame, "Ingrese un numero entero en los puntos de ataque.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
@@ -405,11 +401,6 @@ public class Partida {
 			{
 				ctrlPartida.defender();
 			}
-			catch(PartidaTerminadaException e)
-			{
-				//tomo la excepcion 
-				terminarPelea();
-			}
 			catch(Exception e)
 			{
 				JOptionPane.showMessageDialog(this.frame,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
@@ -417,14 +408,17 @@ public class Partida {
 		}
 		
 		refrescar();
+		if (!ctrlPartida.isPartidaVigente()) {
+			terminarPelea();
+		}
 	}
 	
 	private void terminarPelea()
 	{
-		btnComenzar.setEnabled(false);
+		JOptionPane.showMessageDialog(this.frame,"Felicidades " + ctrlPartida.getTurnoDe().getP().getNombre(),"Pelea terminada",JOptionPane.INFORMATION_MESSAGE);
 		p1 = null;
 		p2 = null;
-		comenzar();
+		limpiar();
 	}
 	
 	private void elegirPersonaje() {
@@ -450,5 +444,20 @@ public class Partida {
 		// TODO Limpiar los radioButtons
 	}
 	
-	
+	private void limpiar() {
+		btnListo.setEnabled(false);
+		
+		btnComenzar.setEnabled(true);
+		btnPersonajeDer.setEnabled(true);
+		btnPersonajeIzq.setEnabled(true);
+		
+		lblTurno.setText("Turno de: ");
+		
+		lblPerIzq.setText("");
+		lblPerDer.setText("");
+		txtVidaDer.setText("0");
+		txtEneDer.setText("0");
+		txtVidaIzq.setText("0");
+		txtEneIzq.setText("0");
+	}
 }
