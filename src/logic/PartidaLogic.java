@@ -2,6 +2,7 @@ package logic;
 
 import java.util.Random;
 
+import data.LuchaAdapter;
 import util.*;
 import entities.*;
 
@@ -59,7 +60,7 @@ public class PartidaLogic {
 	}
 
 	
-	public boolean atacar(int cantPtos) throws Exception
+	public boolean atacar(int cantPtos) throws Exception, ErrorConexionException, PartidaTerminadaException
 	{
 		boolean ataqueExitoso = turnoDe.atacar(esperando, cantPtos);
 		cambiarDeTurno();
@@ -67,23 +68,42 @@ public class PartidaLogic {
 		return ataqueExitoso;
 	}
 	
-	public void defender()
+	public void defender() throws Exception, ErrorConexionException, PartidaTerminadaException
 	{
 		turnoDe.defender();
 		cambiarDeTurno();
 	}
 	
-	private void cambiarDeTurno()
+	private void cambiarDeTurno() throws ErrorConexionException, Exception, PartidaTerminadaException
 	{
-		if (turnoDe == p1) {
-			turnoDe = p2;
-			esperando = p1;
+		//agrego funcionalidad de terminar la partida
+		if(esperando.getVidaActual()<=0)
+		{
+			terminarPartida();
 		}
-		else {
-			turnoDe = p1;
-			esperando = p2;
+		else
+		{
+			if (turnoDe == p1) {
+				turnoDe = p2;
+				esperando = p1;
+			}
+			else {
+				turnoDe = p1;
+				esperando = p2;
+			}
 		}
 	}
+	
+	public void terminarPartida() throws ErrorConexionException, Exception, PartidaTerminadaException
+	{
+		//guardo la victoria
+		LuchaAdapter la = new LuchaAdapter();
+		la.guardar(turnoDe.getP(), esperando.getP());
+		//lanzo excepcion para que muestre mensaje de partida terminada, los parametros son para 
+		//que haga el string del mensaje en el constructor de la exception
+		throw new PartidaTerminadaException(turnoDe.getP(), esperando.getP());		
+	}
+	
 	
 	
 }
