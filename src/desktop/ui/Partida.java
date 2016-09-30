@@ -404,52 +404,8 @@ public class Partida {
 	}
 	
 	private void elegirPersonaje() {
-		Personajes pj = new Personajes();
-		pj.getFrame().addWindowListener(new WindowListener(){
-
-			@Override
-			public void windowActivated(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowClosed(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				tempPer = pj.getPersonaje();
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowIconified(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		pj.getFrame().setVisible(true);
+		DialogPersonajes dialog = new DialogPersonajes();
+		tempPer = dialog.showDialog();
 	}
 
 	private void Refrescar() {
