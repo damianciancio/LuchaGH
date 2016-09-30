@@ -9,8 +9,7 @@ CREATE TABLE `personajes` (
   PRIMARY KEY (`id_personaje`),
   UNIQUE KEY `id_UNIQUE` (`id_personaje`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `partida` (
   `id_partida` int(11) NOT NULL AUTO_INCREMENT,
@@ -21,4 +20,10 @@ CREATE TABLE `partida` (
   KEY `id_personaje_idx` (`id_personaje_ganador`),
   KEY `id_personaje_idx1` (`id_personaje_perdedor`),
   CONSTRAINT `id_personaje` FOREIGN KEY (`id_personaje_ganador`) REFERENCES `personajes` (`id_personaje`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='adiciona 10 puntos a los disponibles al ganador';
+
+CREATE DEFINER=`usergh`@`%` TRIGGER `luchagh`.`partida_BEFORE_INSERT` BEFORE INSERT ON `partida` FOR EACH ROW
+BEGIN
+update personajes set personajes.puntos_disp = personajes.puntos_disp+10
+where personajes.id_personaje = new.id_personaje_ganador;
+END
