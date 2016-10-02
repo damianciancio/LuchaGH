@@ -32,6 +32,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import javax.swing.JScrollPane;
 
 public class Partida {
 	
@@ -55,6 +57,8 @@ public class Partida {
 	JButton btnPersonajeIzq;
 	JButton btnPersonajeDer;
 	JButton btnListo;
+	private JScrollPane scrollPane;
+	private JTextPane txtPaneLogPelea;
 
 	/**
 	 * Launch the application.
@@ -87,7 +91,7 @@ public class Partida {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 460, 285);
+		frame.setBounds(100, 100, 460, 558);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel pnlPersonajes = new JPanel();
@@ -247,7 +251,7 @@ public class Partida {
 		pnlComenzar.setBorder(new EmptyBorder(10, 10, 10, 10));
 		pnlComenzar.setAlignmentY(Component.TOP_ALIGNMENT);
 		pnlComenzar.setAlignmentX(Component.LEFT_ALIGNMENT);
-		frame.getContentPane().add(pnlComenzar, BorderLayout.CENTER);
+		frame.getContentPane().add(pnlComenzar, BorderLayout.SOUTH);
 		GridBagLayout gbl_pnlComenzar = new GridBagLayout();
 		gbl_pnlComenzar.columnWidths = new int[] {80, 125, 60, 200};
 		gbl_pnlComenzar.rowHeights = new int[] {40, 23, 23};
@@ -318,7 +322,14 @@ public class Partida {
 		gbc_txtPtsAtaque.gridx = 1;
 		gbc_txtPtsAtaque.gridy = 2;
 		pnlComenzar.add(txtPtsAtaque, gbc_txtPtsAtaque);
-		txtPtsAtaque.setColumns(10); 
+		txtPtsAtaque.setColumns(10);
+		
+		scrollPane = new JScrollPane();
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+		txtPaneLogPelea = new JTextPane();
+		scrollPane.setViewportView(txtPaneLogPelea);
+		txtPaneLogPelea.setEditable(false);
 	}
 	
 	private void elegirPersonaje1()
@@ -329,8 +340,8 @@ public class Partida {
 		
 		
 		String nombre = p1.getNombre();
-		String vida = String.valueOf(p1.getVida());
-		String ener = String.valueOf(p1.getEnergia());
+		String vida = String.valueOf(p1.getVida()) + " de " + String.valueOf(p1.getVida());
+		String ener = String.valueOf(p1.getEnergia()) + " de " + String.valueOf(p1.getEnergia());
 		
 		txtVidaIzq.setText(vida);
 		txtEneIzq.setText(ener);
@@ -344,8 +355,8 @@ public class Partida {
 		
 		
 		String nombre = p2.getNombre();
-		String vida = String.valueOf(p2.getVida());
-		String ener = String.valueOf(p2.getEnergia());
+		String vida = String.valueOf(p2.getVida()) + " de " + String.valueOf(p2.getVida());
+		String ener = String.valueOf(p2.getEnergia()) + " de " + String.valueOf(p2.getEnergia());
 		
 		txtVidaDer.setText(vida);
 		txtEneDer.setText(ener);
@@ -427,11 +438,11 @@ public class Partida {
 	}
 
 	private void refrescar() {
-
-		String vidaIzq = String.valueOf(ctrlPartida.getP1().getVidaActual());
-		String enerIzq = String.valueOf(ctrlPartida.getP1().getEnergiaActual());
-		String vidaDer = String.valueOf(ctrlPartida.getP2().getVidaActual());
-		String enerDer = String.valueOf(ctrlPartida.getP2().getEnergiaActual());
+		//muestra el nivel de vida y la vida original
+		String vidaIzq = String.valueOf(ctrlPartida.getP1().getVidaActual()) + " de " + String.valueOf(ctrlPartida.getP1().getP().getVida());
+		String enerIzq = String.valueOf(ctrlPartida.getP1().getEnergiaActual())+ " de " + String.valueOf(ctrlPartida.getP1().getP().getEnergia());
+		String vidaDer = String.valueOf(ctrlPartida.getP2().getVidaActual()) + " de " + String.valueOf(ctrlPartida.getP2().getP().getVida());
+		String enerDer = String.valueOf(ctrlPartida.getP2().getEnergiaActual()) + " de " + String.valueOf(ctrlPartida.getP2().getP().getEnergia());
 		
 		txtVidaIzq.setText(vidaIzq);
 		txtVidaDer.setText(vidaDer);
@@ -441,7 +452,11 @@ public class Partida {
 		String turnoDe = ctrlPartida.getTurnoDe().getP().getNombre();
 		lblTurno.setText("Turno de " + turnoDe);
 		
-		// TODO Limpiar los radioButtons
+		//limpia RadioButton
+		rdbtnAtacar.setSelected(false);
+		rdbtnDefender.setSelected(false);
+		
+		txtPaneLogPelea.setText(ctrlPartida.getLogPelea());
 	}
 	
 	private void limpiar() {
@@ -459,5 +474,9 @@ public class Partida {
 		txtEneDer.setText("0");
 		txtVidaIzq.setText("0");
 		txtEneIzq.setText("0");
+		
+		//Limpia adioButton
+		rdbtnAtacar.setSelected(false);
+		rdbtnDefender.setSelected(false);
 	}
 }

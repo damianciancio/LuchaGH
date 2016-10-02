@@ -13,6 +13,12 @@ public class PartidaLogic {
 	private PersonajeLuchando p2;
 	private PersonajeLuchando turnoDe;
 	private PersonajeLuchando esperando;
+	private String logPelea;
+	
+	public String getLogPelea()
+	{
+		return logPelea;
+	}
 
 	public PersonajeLuchando getP1() {
 		return p1;
@@ -35,6 +41,7 @@ public class PartidaLogic {
 
 	public PartidaLogic() {
 		PartidaVigente = false;
+		logPelea = "";
 	}
 	
 	public void comenzarPelea(Personaje pj1, Personaje pj2) throws PersonajeNoEncontradoException, PersonajeInvalidoException {
@@ -57,12 +64,24 @@ public class PartidaLogic {
 			turnoDe = p2;
 			esperando = p1;
 		}
+		
+
+		logPelea = "Pelea entre "+turnoDe.getP().getNombre()+" y "+esperando.getP().getNombre()+".\n\n";
 	}
 
 	
 	public boolean atacar(int cantPtos) throws Exception, ErrorConexionException
 	{
+		int ptosPrevios = esperando.getVidaActual();
 		boolean ataqueExitoso = turnoDe.atacar(esperando, cantPtos);
+		if(ataqueExitoso)
+		{
+			logPelea = logPelea  + turnoDe.getP().getNombre()+ " ha quitado " + String.valueOf(ptosPrevios - esperando.getVidaActual())+ " de vida a "+esperando.getP().getNombre()+ "\n";
+		}
+		else
+		{
+			logPelea = logPelea + esperando.getP().getNombre() + " ha esquivado el ataque. "+ turnoDe.getP().getNombre()+" segui participando.\n"; 
+		}
 		cambiarDeTurno();
 		
 		return ataqueExitoso;
@@ -70,7 +89,12 @@ public class PartidaLogic {
 	
 	public void defender() throws Exception, ErrorConexionException
 	{
+		int ptosAnterioresVida = turnoDe.getVidaActual();
+		int ptosAnterioresEnergia = turnoDe.getEnergiaActual();
 		turnoDe.defender();
+		logPelea = logPelea + turnoDe.getP().getNombre()+ " ha recuperado "
+				+String.valueOf(turnoDe.getVidaActual()-ptosAnterioresVida)+" puntos de vida y "
+				+String.valueOf(turnoDe.getEnergiaActual()-ptosAnterioresEnergia)+ " de energía.\n"; 
 		cambiarDeTurno();
 	}
 	
@@ -101,6 +125,7 @@ public class PartidaLogic {
 		la.guardar(turnoDe.getP(), esperando.getP());
 		
 		PartidaVigente = false;
+		logPelea = logPelea + "El personaje"+ turnoDe.getP().getNombre() +" ha ganado.\n\n\n";
 		
 	}
 	public boolean isPartidaVigente() {
