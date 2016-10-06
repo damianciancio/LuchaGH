@@ -59,6 +59,7 @@ public class Partida {
 	JButton btnListo;
 	private JScrollPane scrollPane;
 	private JTextPane txtPaneLogPelea;
+	private JButton btnCancelar;
 
 	/**
 	 * Launch the application.
@@ -253,9 +254,9 @@ public class Partida {
 		pnlComenzar.setAlignmentX(Component.LEFT_ALIGNMENT);
 		frame.getContentPane().add(pnlComenzar, BorderLayout.SOUTH);
 		GridBagLayout gbl_pnlComenzar = new GridBagLayout();
-		gbl_pnlComenzar.columnWidths = new int[] {80, 125, 60, 200};
+		gbl_pnlComenzar.columnWidths = new int[] {80, 125, 60, 0, 200};
 		gbl_pnlComenzar.rowHeights = new int[] {40, 23, 23};
-		gbl_pnlComenzar.columnWeights = new double[]{0.0, 1.0, 0.0};
+		gbl_pnlComenzar.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
 		gbl_pnlComenzar.rowWeights = new double[]{0.0};
 		pnlComenzar.setLayout(gbl_pnlComenzar);
 		
@@ -273,7 +274,7 @@ public class Partida {
 		lblTurnoDe.setVerticalAlignment(SwingConstants.TOP);
 		GridBagConstraints gbc_lblTurnoDe = new GridBagConstraints();
 		gbc_lblTurnoDe.insets = new Insets(0, 0, 5, 0);
-		gbc_lblTurnoDe.gridx = 3;
+		gbc_lblTurnoDe.gridx = 4;
 		gbc_lblTurnoDe.gridy = 0;
 		pnlComenzar.add(lblTurnoDe, gbc_lblTurnoDe);
 		
@@ -323,6 +324,18 @@ public class Partida {
 		gbc_txtPtsAtaque.gridy = 2;
 		pnlComenzar.add(txtPtsAtaque, gbc_txtPtsAtaque);
 		txtPtsAtaque.setColumns(10);
+		
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				limpiar();
+			}
+		});
+		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+		gbc_btnCancelar.anchor = GridBagConstraints.EAST;
+		gbc_btnCancelar.gridx = 4;
+		gbc_btnCancelar.gridy = 2;
+		pnlComenzar.add(btnCancelar, gbc_btnCancelar);
 		
 		scrollPane = new JScrollPane();
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -479,6 +492,7 @@ public class Partida {
 		txtEneDer.setText("0");
 		txtVidaIzq.setText("0");
 		txtEneIzq.setText("0");
+		txtPaneLogPelea.setText("");
 		
 		//Limpia adioButton
 		rdbtnAtacar.setSelected(false);
