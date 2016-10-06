@@ -7,11 +7,8 @@ import util.*;
 
 public class PersonajeAdapter {
 	
-	private ArrayList<Personaje> _list;
-	
 	public PersonajeAdapter() 
 	{
-		_list = new ArrayList<Personaje>();
 	}
 	
 	public ArrayList<Personaje> GetAll() throws Exception
@@ -51,7 +48,6 @@ public class PersonajeAdapter {
 		Personaje p = new Personaje();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
-		String query = "select * from personajes where personajes.nombre = ?";
 		try 
 		{
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("SELECT * FROM personajes"

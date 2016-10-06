@@ -1,8 +1,6 @@
 package desktop.ui;
 
 import logic.*;
-import util.ErrorConexionException;
-import data.*;
 
 import java.awt.EventQueue;
 
@@ -29,8 +27,6 @@ import entities.Personaje;
 
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
