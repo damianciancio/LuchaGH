@@ -338,14 +338,16 @@ public class Partida {
 		p1 = tempPer;
 		
 		
-		
-		String nombre = p1.getNombre();
-		String vida = String.valueOf(p1.getVida()) + " de " + String.valueOf(p1.getVida());
-		String ener = String.valueOf(p1.getEnergia()) + " de " + String.valueOf(p1.getEnergia());
-		
-		txtVidaIzq.setText(vida);
-		txtEneIzq.setText(ener);
-		lblPerIzq.setText(nombre);
+		if(tempPer != null)
+		{
+			String nombre = p1.getNombre();
+			String vida = String.valueOf(p1.getVida()) + " de " + String.valueOf(p1.getVida());
+			String ener = String.valueOf(p1.getEnergia()) + " de " + String.valueOf(p1.getEnergia());
+			
+			txtVidaIzq.setText(vida);
+			txtEneIzq.setText(ener);
+			lblPerIzq.setText(nombre);
+		}
 	}
 	private void elegirPersonaje2()
 	{
@@ -353,14 +355,17 @@ public class Partida {
 		p2 = tempPer;
 
 		
-		
-		String nombre = p2.getNombre();
-		String vida = String.valueOf(p2.getVida()) + " de " + String.valueOf(p2.getVida());
-		String ener = String.valueOf(p2.getEnergia()) + " de " + String.valueOf(p2.getEnergia());
-		
-		txtVidaDer.setText(vida);
-		txtEneDer.setText(ener);
-		lblPerDer.setText(nombre);
+		if(tempPer != null)
+		{
+			String nombre = p2.getNombre();
+			String vida = String.valueOf(p2.getVida()) + " de " + String.valueOf(p2.getVida());
+			String ener = String.valueOf(p2.getEnergia()) + " de " + String.valueOf(p2.getEnergia());
+			
+			txtVidaDer.setText(vida);
+			txtEneDer.setText(ener);
+			lblPerDer.setText(nombre);
+	
+		}
 	}
 	private void comenzar()
 	{

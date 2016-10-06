@@ -212,7 +212,6 @@ public class PersonajeAdapter {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			throw new Exception("Error al editar personaje", e);
 		} catch (ErrorConexionException e) {
 			throw e;

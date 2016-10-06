@@ -49,6 +49,9 @@ public class DialogPersonajes extends JDialog {
 	 * Create the dialog.
 	 */
 	public DialogPersonajes() {
+		
+		inicializar();
+		
 		setBounds(100, 100, 450, 300);
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout());
@@ -226,6 +229,12 @@ public class DialogPersonajes extends JDialog {
 	{
 		setVisible(true);
 		return personajeActual;
+	}
+	
+	public void inicializar()
+	{
+		ctrlPers = new PersonajeLogic();
+		personajeActual = null;
 	}
 
 }
