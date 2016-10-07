@@ -21,7 +21,7 @@ public class FactoryConexion {
 		try {
 			Class.forName(dbDriver);
 		} catch (ClassNotFoundException e) {
-			throw new DriverNoEncontradoException("Error del Driver JDBC");
+			throw new DriverNoEncontradoException("Error del Driver JDBC", e);
 		}
 	}
 	
@@ -43,7 +43,7 @@ public class FactoryConexion {
 				cantConn++;
 			}
 		} catch (SQLException e) {
-			throw new ErrorConexionException("Error al conectar a la DB");
+			throw new ErrorConexionException("Error al conectar a la DB", e);
 
 		}
 		return conn;
@@ -56,7 +56,7 @@ public class FactoryConexion {
 				conn.close();
 			}
 		} catch (SQLException e) {
-			throw new ErrorConexionException("Error al cerrar conexión");
+			throw new ErrorConexionException("Error al cerrar conexión", e);
 		}
 		
 	}

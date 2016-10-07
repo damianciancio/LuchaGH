@@ -28,7 +28,7 @@ public class LuchaAdapter {
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				throw new Exception("Error al guardar partida", e);
+				throw new ErrorConexionException("Error al guardar partida", e);
 			} catch (ErrorConexionException e) {
 				throw e;
 			}finally {
@@ -39,7 +39,7 @@ public class LuchaAdapter {
 				} catch (ErrorConexionException e) {
 					throw e;
 				} catch (SQLException e) {
-					throw new Exception("Error al cerrar conexion",e);
+					throw new ErrorConexionException("Error al cerrar conexion",e);
 				}
 			}
 	}

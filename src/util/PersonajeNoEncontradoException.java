@@ -1,7 +1,9 @@
 package util;
 
+import org.apache.logging.log4j.Level;
+
 @SuppressWarnings("serial")
-public class PersonajeNoEncontradoException extends Exception {
+public class PersonajeNoEncontradoException extends ApplicationException {
 	
 	public PersonajeNoEncontradoException () {
 		super();
@@ -9,5 +11,10 @@ public class PersonajeNoEncontradoException extends Exception {
 	
 	public PersonajeNoEncontradoException (String msj) {
 		super(msj);
+	}
+	
+	public PersonajeNoEncontradoException(String message, Throwable cause)
+	{
+		super(message, cause, Level.DEBUG);
 	}
 }
