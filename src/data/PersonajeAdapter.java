@@ -208,7 +208,7 @@ public class PersonajeAdapter {
 			
 			
 		} catch (SQLException e) {
-			throw new Exception("Error al editar personaje", e);
+			throw new Exception("Error al eliminar personaje", e);
 		} catch (ErrorConexionException e) {
 			throw e;
 		}finally {

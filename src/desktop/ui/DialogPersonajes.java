@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -23,22 +25,21 @@ import logic.PersonajeLogic;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
 
 @SuppressWarnings("serial")
 public class DialogPersonajes extends JDialog {
 	
 	private Personaje personajeActual;
 	private PersonajeLogic ctrlPers;
-	private JList<Personaje> listPersonajes;
 
 	private final JPanel contentPanel = new JPanel();
+	private JTable table;
 
 	/**
 	 * Create the dialog.
 	 */
 	public DialogPersonajes() {
-		
-		inicializar();
 		
 		setBounds(100, 100, 450, 300);
 		setModal(true);
@@ -118,24 +119,19 @@ public class DialogPersonajes extends JDialog {
 			JScrollPane scrollPane = new JScrollPane();
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 			{
-				listPersonajes = new JList<Personaje>();
-				scrollPane.setViewportView(listPersonajes);
+				table = new JTable();
+				scrollPane.setViewportView(table);
 			}
 		}
 
-		refrescar();
+		inicializar();
 	}
 	
 	private void refrescar() {
 		try
 		{
-			DefaultListModel<Personaje> modelo = new DefaultListModel<Personaje>();
-			ArrayList<Personaje> personajes = new PersonajeLogic().GetAll();
+			setTabla(new PersonajeLogic().GetAll());
 			
-			for (Personaje personaje : personajes) {
-				modelo.addElement(personaje);
-			}
-			listPersonajes.setModel(modelo);
 		}
 		catch(Exception e)
 		{
@@ -145,13 +141,13 @@ public class DialogPersonajes extends JDialog {
 	
 	private void elegir() {
 		//Valido que se haya elegido a alguien
-		if (listPersonajes.isSelectionEmpty()){
+		if (table.getSelectedRow() == -1){
 			JOptionPane.showMessageDialog(this, "Elija un personaje");
 			return;
 		}
 		
 		//Capturo el personaje seleccionado y le asigno el estaod modificado
-		personajeActual = (Personaje)listPersonajes.getSelectedValue();
+		personajeActual = getFromTabla();
 		
 		this.setVisible(false);
 		this.dispose();
@@ -164,13 +160,13 @@ public class DialogPersonajes extends JDialog {
 	}
 	private void editPersonaje() {
 		//Valido que se haya elegido a alguien
-		if (listPersonajes.isSelectionEmpty()){
+		if (table.getSelectedRow() == -1){
 			JOptionPane.showMessageDialog(this, "Elija un personaje");
 			return;
 		}
 		
 		//Capturo el personaje seleccionado y le asigno el estaod modificado
-		Personaje per = (Personaje)listPersonajes.getSelectedValue();
+		Personaje per = getFromTabla();
 		per.setEstData(Entidad.estadoData.Modified);
 		
 		//Creo la ventana de edición
@@ -181,13 +177,13 @@ public class DialogPersonajes extends JDialog {
 	}
 	private void deletePersonaje() {
 		//Valido que se haya elegido a alguien
-		if (listPersonajes.isSelectionEmpty()){
+		if (table.getSelectedRow() == -1){
 			JOptionPane.showMessageDialog(this, "Elija un personaje");
 			return;
 		}
 		
 		//Capturo el personaje seleccionado y le asigno el estaod modificado
-		Personaje per = (Personaje)listPersonajes.getSelectedValue();
+		Personaje per = getFromTabla();
 		String msj = "Está seguro que desea eliminar a " + per.getNombre() + "?";
 		
 		int response = JOptionPane.showConfirmDialog(this, msj, "Eliminar Personaje", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -221,6 +217,87 @@ public class DialogPersonajes extends JDialog {
 	{
 		ctrlPers = new PersonajeLogic();
 		personajeActual = null;
+		refrescar();
+	}
+	
+	private void setTabla(ArrayList<Personaje> per)
+	{
+		DefaultTableModel modelo = makeModel();
+		table.setColumnSelectionAllowed(false);
+		table.setCellSelectionEnabled(false);
+		table.setRowSelectionAllowed(true);
+		try
+		{
+			Object[] arre;
+			for (Personaje personaje : per) 
+			{
+				modelo.addRow(mapToArray(personaje));
+			}
+
+			table.setModel(modelo);
+		}
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
 	}
 
+	private DefaultTableModel makeModel()
+	{
+		DefaultTableModel modelo = (new DefaultTableModel(){
+			public boolean isCellEditable(int rowIndex,int columnIndex)
+			{
+				return false;
+			}
+		});
+		modelo.addColumn("ID");
+		modelo.addColumn("Nombre");
+		modelo.addColumn("Puntos totales");
+		modelo.addColumn("Vida");
+		modelo.addColumn("Energia");
+		modelo.addColumn("Defensa");
+		modelo.addColumn("Evasion");
+		return modelo;
+	}
+	
+	private Object[] mapToArray(Personaje per)
+	{
+		Object [] arre = new Object[7];
+		arre[0] = per.getId();
+		arre[1] = per.getNombre();
+		arre[2] = per.getPtsTotales();
+		arre[3] = per.getVida();
+		arre[4] = per.getEnergia();
+		arre[5] = per.getDefensa();
+		arre[6] = per.getEvasion();
+		return arre;
+	}
+	
+	private Personaje getFromTabla()
+	{
+		//construyo arreglo de objetos de la longitud de la cantidad de columnas
+		Object[] arre = new Object[table.getModel().getColumnCount()];
+		//tomo la fila seleccionada
+		int index = table.getSelectedRow();
+		//mapeo a un arreglo
+		for (int i = 0; i < table.getModel().getColumnCount(); i++)
+		{
+			arre[i] = table.getModel().getValueAt(index, i);
+		}
+		//mapeo arreglo a Personaje
+		return mapFromArray(arre);
+	}
+	
+	private Personaje mapFromArray(Object[] arre)
+	{
+		Personaje p = new Personaje();
+		p.setId((int)arre[0]);
+		p.setNombre((String)arre[1]);
+		p.setPtsTotales((int)arre[2]);
+		p.setVida((int)arre[3]);
+		p.setEnergia((int)arre[4]);
+		p.setDefensa((int)arre[5]);
+		p.setEvasion((int)arre[6]);
+		return p;
+	}
 }
