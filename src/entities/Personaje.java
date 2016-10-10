@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Personaje extends Entidad {
 	private String nombre;
-	private int ptsDisp;
+	private int ptsTotales;
 	private int vida;
 	private int energia;
 	private int defensa;
@@ -13,19 +13,19 @@ public class Personaje extends Entidad {
 	public Personaje()
 	{
 		setEstData(Entidad.estadoData.Unmodified);
-		ptsDisp = 200;
+		ptsTotales = 200;
 	}	
 	
 	public String toString()
 	{
-		return this.nombre +" "+ "\tPuntos restantes: "+this.ptsDisp;
+		return this.nombre +" "+ "\tPuntos restantes: "+String.valueOf((this.ptsTotales - (this.defensa+this.energia+this.evasion+this.vida)));
 	}
 	public String getNombre() {
 		return nombre;
 	}
 
-	public int getPtsDisp() {
-		return ptsDisp;
+	public int getPtsTotales() {
+		return ptsTotales;
 	}
 
 	public int getVida() {
@@ -48,8 +48,8 @@ public class Personaje extends Entidad {
 		this.nombre = nombre;
 	}
 
-	public void setPtsDisp(int ptsDisp) {
-		this.ptsDisp = ptsDisp;
+	public void setPtsTotales(int ptsDisp) {
+		this.ptsTotales = ptsDisp;
 	}
 
 	public void setVida(int vida) {

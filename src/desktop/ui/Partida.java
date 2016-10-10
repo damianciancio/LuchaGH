@@ -440,10 +440,20 @@ public class Partida {
 	
 	private void terminarPelea()
 	{
-		JOptionPane.showMessageDialog(this.frame,"Felicidades " + ctrlPartida.getTurnoDe().getP().getNombre(),"Pelea terminada",JOptionPane.INFORMATION_MESSAGE);
+		if( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(this.frame, "El personaje "+ctrlPartida.getTurnoDe().getP().getNombre() 
+				+" ha ganado la partida! ¿Desea asingarle los puntos ganados?", "Tenemos un ganador", JOptionPane.YES_NO_OPTION))
+			{
+				reasignarPuntos(ctrlPartida.getTurnoDe().getP());
+			};
 		p1 = null;
 		p2 = null;
 		limpiar();
+	}
+	
+	public void reasignarPuntos(Personaje p)
+	{
+		DialogPersonajesDesktop dpd = new DialogPersonajesDesktop(p);
+		dpd.showDialog();
 	}
 	
 	private void elegirPersonaje() {

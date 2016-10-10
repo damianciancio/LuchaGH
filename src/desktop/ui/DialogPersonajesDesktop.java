@@ -49,6 +49,7 @@ public class DialogPersonajesDesktop extends JDialog {
 	 *
 	 * Create the dialog.
 	 */
+	
 	public DialogPersonajesDesktop() {
 		ctrlPers = new PersonajeLogic();
 		perActual = new Personaje();
@@ -323,10 +324,19 @@ public class DialogPersonajesDesktop extends JDialog {
 				gbc_label.gridy = 4;
 				panelCentral.add(label, gbc_label);
 			}
+			
+			limpiarCampos();
 		}
 	}
 	
 
+	public DialogPersonajesDesktop(Personaje p)
+	{
+		this();
+		mapearDeDatos(p);
+		showDialog();
+	}
+	
 	public void guardar()
 	{
 		if(validar())
@@ -371,9 +381,9 @@ public class DialogPersonajesDesktop extends JDialog {
 			valido = false;
 			error = error + "Los puntos de defensa no pueden superar los 20 puntos.\nLos puntos de evasion no pueden superar los 80 puntos.";
 		}
-		if(valido && ptDefensa + ptVida + ptEnergia + ptEvasion > 200)
+		if(valido && ptDefensa + ptVida + ptEnergia + ptEvasion > perActual.getPtsTotales())
 		{
-			error = error + "Los atributos no pueden superar los 200 puntos.\n"; 
+			error = error + "Los atributos no pueden superar los puntos disponibles.\n"; 
 			valido = false;
 		}
 		if(!valido)
@@ -418,13 +428,15 @@ public class DialogPersonajesDesktop extends JDialog {
 		this.txtDefensa.setText(perDefensa);
 		this.txtEnergia.setText(perEnergia);
 		this.txtEvasion.setText(perEvasion);
+		this.txtPtsrest.setText(String.valueOf(per.getPtsTotales()-(per.getVida()+per.getDefensa()+per.getEnergia()
+				+ per.getEvasion())));
 		
 		
 	}
 
 	private void calcularRestantes()
 	{
-		int restantes = 200;
+		int restantes = perActual.getPtsTotales();
 		if(!txtDefensa.getText().equals(null))
 		{
 			try {
@@ -465,13 +477,13 @@ public class DialogPersonajesDesktop extends JDialog {
 	
 	private void limpiarCampos()
 	{
-		txtDefensa.setText("");
-		txtEnergia.setText("");
-		txtEvasion.setText("");
+		txtDefensa.setText("0");
+		txtEnergia.setText("0");
+		txtEvasion.setText("0");
 		txtId.setText("");
 		txtNombreusuario.setText("");
-		txtPtsrest.setText("");
-		txtVida.setText("");
+		txtPtsrest.setText("200");
+		txtVida.setText("0");
 	}
 	public void cerrar()
 	{

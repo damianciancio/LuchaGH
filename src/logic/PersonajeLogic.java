@@ -23,7 +23,7 @@ public class PersonajeLogic {
 			int vid = p.getVida();
 			int eva = p.getEvasion();
 			
-			int ptosDisp = p.getPtsDisp();
+			int ptosDisp = p.getPtsTotales();
 			
 			if (def + ene + vid + eva > ptosDisp) {
 				error += "Los atributos elegidos superan a los disponible \n";

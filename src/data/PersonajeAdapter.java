@@ -26,7 +26,7 @@ public class PersonajeAdapter {
 				Personaje p = new Personaje();
 				p.setId(rs.getInt(1));
 				p.setNombre(rs.getString(2));
-				p.setPtsDisp(rs.getInt(3));
+				p.setPtsTotales(rs.getInt(3));
 				p.setVida(rs.getInt(4));
 				p.setEnergia(rs.getInt(5));
 				p.setDefensa(rs.getInt(6));
@@ -59,7 +59,7 @@ public class PersonajeAdapter {
 			{
 				p.setId(rs.getInt(1));
 				p.setNombre(rs.getString(2));
-				p.setPtsDisp(rs.getInt(3));
+				p.setPtsTotales(rs.getInt(3));
 				p.setVida(rs.getInt(4));
 				p.setEnergia(rs.getInt(5));
 				p.setDefensa(rs.getInt(6));
@@ -118,7 +118,7 @@ public class PersonajeAdapter {
 			// by the autoincrement column. Otherwise don't use it
 						
 			stmt.setString(1, pj.getNombre());
-			stmt.setInt(2, pj.getPtsDisp());
+			stmt.setInt(2, pj.getPtsTotales());
 			stmt.setInt(3, pj.getVida());
 			stmt.setInt(4, pj.getEnergia());
 			stmt.setInt(5, pj.getDefensa());
@@ -167,7 +167,7 @@ public class PersonajeAdapter {
 					+ "Where id_personaje = ?");
 						
 			stmt.setString(1, pj.getNombre());
-			stmt.setInt(2, pj.getPtsDisp());
+			stmt.setInt(2, pj.getPtsTotales());
 			stmt.setInt(3, pj.getVida());
 			stmt.setInt(4, pj.getEnergia());
 			stmt.setInt(5, pj.getDefensa());

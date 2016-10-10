@@ -174,9 +174,7 @@ public class DialogPersonajes extends JDialog {
 		per.setEstData(Entidad.estadoData.Modified);
 		
 		//Creo la ventana de edición
-		DialogPersonajesDesktop dper = new DialogPersonajesDesktop();
-		dper.mapearDeDatos(per);
-		dper.showDialog();
+		DialogPersonajesDesktop dper = new DialogPersonajesDesktop(per);
 		
 		//Se refresca la lista
 		refrescar();
