@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.internal.QuickAccess">
-		<item value="629" key="dialogHeight"/>
+		<item value="551" key="dialogHeight"/>
 		<item value="1080" key="dialogWidth"/>
 		<list key="textEntries">
 		</list>
