@@ -6,30 +6,42 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.SwingConstants;
+
 import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Dimension;
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import entities.Personaje;
 
 import javax.swing.JRadioButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
+
+import util.SuperLogger;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Partida {
 	
@@ -311,6 +323,12 @@ public class Partida {
 		bg.add(rdbtnDefender);
 		
 		txtPtsAtaque = new JTextField();
+		txtPtsAtaque.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				rdbtnAtacar.setSelected(true);
+			}
+		});
 		txtPtsAtaque.setMaximumSize(new Dimension(45, 20));
 		txtPtsAtaque.setMinimumSize(new Dimension(45, 20));
 		GridBagConstraints gbc_txtPtsAtaque = new GridBagConstraints();
@@ -443,7 +461,14 @@ public class Partida {
 		if( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(this.frame, "El personaje "+ctrlPartida.getTurnoDe().getP().getNombre() 
 				+" ha ganado la partida! ¿Desea asingarle los puntos ganados?", "Tenemos un ganador", JOptionPane.YES_NO_OPTION))
 			{
-				reasignarPuntos(ctrlPartida.getTurnoDe().getP());
+				
+				Personaje per;
+				try {
+					per = new PersonajeLogic().GetByNombre(ctrlPartida.getTurnoDe().getP());
+					reasignarPuntos(per);
+				} catch (Exception e) {
+				}
+				
 			};
 		p1 = null;
 		p2 = null;

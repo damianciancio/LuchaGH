@@ -31,7 +31,7 @@ public class FactoryConexion {
 			
 		    host = propiedades.getProperty("host");
 		    user = propiedades.getProperty("user");
-		    pass = propiedades.getProperty("password");
+		    pass = propiedades.getProperty("pass");
 			
 		} catch (ClassNotFoundException e) {
 			throw new DriverNoEncontradoException("Error del Driver JDBC", e);
