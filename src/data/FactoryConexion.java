@@ -1,16 +1,18 @@
 package data;
 import util.*;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 public class FactoryConexion {
+	//Capturo datos de config.properties
 	private String dbDriver="com.mysql.jdbc.Driver";
-	private String host="85.10.205.173";
-	//private String host="localhost";
+	private String host;
 	private String port="3306";
-	//private String user="root";
-	//private String pass="";
-	private String user="usergh";
-	private String pass="rootgh";
+	private String user;
+	private String pass;
 	private String db="luchagh";
 	private String dbType="mysql";
 	
@@ -20,8 +22,21 @@ public class FactoryConexion {
 	private FactoryConexion() throws DriverNoEncontradoException{
 		try {
 			Class.forName(dbDriver);
+			
+			Properties propiedades = new Properties();
+		    InputStream entrada = null;
+		    
+		    entrada = new FileInputStream("config.properties");
+		    propiedades.load(entrada);
+			
+		    host = propiedades.getProperty("host");
+		    user = propiedades.getProperty("user");
+		    pass = propiedades.getProperty("password");
+			
 		} catch (ClassNotFoundException e) {
 			throw new DriverNoEncontradoException("Error del Driver JDBC");
+		} catch (Exception ex) {
+			throw new DriverNoEncontradoException("Error en rchivo de configuracion.");
 		}
 	}
 	

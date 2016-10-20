@@ -13,7 +13,6 @@ public class LuchaAdapter {
 			ResultSet rs=null;
 			PreparedStatement stmt=null;
 			
-			
 			try {
 				stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
 						"insert into partida(id_personaje_ganador, id_personaje_perdedor)"+
@@ -24,7 +23,6 @@ public class LuchaAdapter {
 				stmt.setInt(1, pjGan.getId());
 				stmt.setInt(2, pjPer.getId());
 				stmt.execute();
-				
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
