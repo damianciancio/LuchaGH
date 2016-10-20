@@ -159,8 +159,8 @@ public class Partida {
 		pnlPersonajes.add(lblVidaIzq, gbc_lblVidaIzq);
 		
 		txtVidaIzq = new JTextField();
-		txtVidaIzq.setMaximumSize(new Dimension(60, 20));
-		txtVidaIzq.setMinimumSize(new Dimension(60, 20));
+		txtVidaIzq.setMaximumSize(new Dimension(80, 20));
+		txtVidaIzq.setMinimumSize(new Dimension(80, 20));
 		txtVidaIzq.setEditable(false);
 		GridBagConstraints gbc_txtVidaIzq = new GridBagConstraints();
 		gbc_txtVidaIzq.anchor = GridBagConstraints.WEST;
@@ -199,8 +199,8 @@ public class Partida {
 		pnlPersonajes.add(lblEnerIzq, gbc_lblEnerIzq);
 		
 		txtEneIzq = new JTextField();
-		txtEneIzq.setMinimumSize(new Dimension(60, 20));
-		txtEneIzq.setMaximumSize(new Dimension(60, 20));
+		txtEneIzq.setMinimumSize(new Dimension(80, 20));
+		txtEneIzq.setMaximumSize(new Dimension(80, 20));
 		txtEneIzq.setEditable(false);
 		GridBagConstraints gbc_txtEneIzq = new GridBagConstraints();
 		gbc_txtEneIzq.anchor = GridBagConstraints.WEST;
